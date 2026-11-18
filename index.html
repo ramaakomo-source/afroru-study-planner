@@ -2,281 +2,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AfroRus Study Planner</title>
-<style>
-* { box-sizing: border-box; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AfroRus Study Planner</title>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #17243a;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-header {
-  background: #102b50;
-  color: white;
-  padding: 22px 18px;
-}
+    body {
+      margin: 0;
+      padding: 30px 16px;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #202b38;
+    }
 
-header h1 { margin: 0; font-size: 23px; }
-header p { color: #d9e5f5; font-size: 14px; }
+    main {
+      max-width: 650px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
 
-main {
-  max-width: 760px;
-  margin: 38px auto;
-  padding: 0 18px;
-}
+    h1 {
+      color: #123c32;
+      margin-top: 0;
+    }
 
-.progress {
-  color: #52708f;
-  font-size: 13px;
-  margin-bottom: 12px;
-}
+    h2 {
+      margin-top: 28px;
+    }
 
-h2 { font-size: 27px; margin-bottom: 10px; }
+    .subtitle {
+      color: #667085;
+      line-height: 1.6;
+    }
 
-.intro {
-  color: #617086;
-  line-height: 1.6;
-}
+    .step {
+      display: none;
+    }
 
-.option {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 19px;
-  margin: 14px 0;
-  border: 2px solid #dce4ee;
-  border-radius: 12px;
-  background: white;
-  cursor: pointer;
-}
+    .step.active {
+      display: block;
+    }
 
-.option.selected {
-  border-color: #1768b2;
-  background: #edf6ff;
-}
+    .option {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      text-align: left;
+      font-size: 16px;
+      background: white;
+      border: 1px solid #d0d5dd;
+      border-radius: 9px;
+      cursor: pointer;
+    }
 
-.option strong {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 7px;
-}
+    .option:hover {
+      border-color: #16734f;
+    }
 
-.option span {
-  color: #64748b;
-  line-height: 1.5;
-  font-size: 14px;
-}
+    .option.selected {
+      border: 2px solid #16734f;
+      background: #edf8f1;
+    }
 
-.continue, .back {
-  padding: 15px;
-  border-radius: 9px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .option small {
+      display: block;
+      margin-top: 6px;
+      color: #667085;
+      line-height: 1.4;
+    }
 
-.continue {
-  width: 100%;
-  border: none;
-  background: #1768b2;
-  color: white;
-  margin-top: 16px;
-}
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
 
-.continue:disabled {
-  background: #aab8c8;
-  cursor: not-allowed;
-}
+    .actions button {
+      padding: 13px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
 
-.back {
-  width: 100%;
-  margin-top: 10px;
-  background: white;
-  border: 1px solid #cbd5e1;
-  color: #29425e;
-}
+    .continue {
+      background: #16734f;
+      color: white;
+      flex: 1;
+    }
 
-.message {
-  color: #a33b32;
-  font-size: 14px;
-  margin-top: 12px;
-}
+    .back {
+      background: #e8edf0;
+      color: #202b38;
+    }
 
-footer {
-  text-align: center;
-  color: #78869a;
-  padding: 25px 15px;
-  font-size: 12px;
-}
+    .message {
+      margin-top: 18px;
+      padding: 12px;
+      background: #f0f7f3;
+      border-radius: 8px;
+      line-height: 1.5;
+    }
 
-.hidden { display: none; }
-</style>
+    .note {
+      margin-top: 18px;
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 
 <body>
-
-<header>
-  <h1>AfroRus Study Planner</h1>
-  <p>Your gateway to informed study planning in Russia</p>
-</header>
-
 <main>
-
-<section id="fundingScreen">
-  <div class="progress">STEP 1 OF 7</div>
-  <h2>Choose Your Funding Route</h2>
-  <p class="intro">
-    How do you plan to finance your studies in Russia?
-    Select the option that best describes your situation.
+  <h1>AfroRus Study Planner</h1>
+  <p class="subtitle">
+    Plan your studies in Russia. Prepare your finances with confidence.
   </p>
 
-  <div id="fundingOptions">
+  <!-- STEP 1: FUNDING ROUTE -->
+  <section id="step1" class="step active">
+    <h2>Step 1: Funding route</h2>
+    <p class="subtitle">How do you plan to finance your studies?</p>
+
     <button class="option" data-value="RU_GOV_QUOTA">
-      <strong>Russian Government Scholarship</strong>
-      <span>For students selected through the Russian Government scholarship quota.</span>
+      Russian Government Scholarship
+      <small>Government-funded study through the official quota system.</small>
     </button>
 
     <button class="option" data-value="OPEN_DOORS">
-      <strong>Open Doors Scholarship</strong>
-      <span>For students applying through the Open Doors International Olympiad.</span>
+      Open Doors Scholarship
+      <small>International scholarship competition for eligible applicants.</small>
     </button>
 
     <button class="option" data-value="SELF_FUNDED">
-      <strong>Self-funded Admission</strong>
-      <span>For students financing their own tuition and study-related expenses.</span>
-    </button>
-  </div>
-
-  <button class="continue" id="fundingContinue" disabled>
-    Continue
-  </button>
-</section>
-
-<section id="universityScreen" class="hidden">
-  <div class="progress">STEP 2 OF 7</div>
-  <h2>Choose Your University</h2>
-  <p class="intro">
-    Where are you planning to study in Russia?
-    Select your preferred university.
-  </p>
-
-  <div id="universityOptions">
-    <button class="option" data-value="3">
-      <strong>RUDN University</strong>
-      <span>Moscow, Russia</span>
+      Self-funded Admission
+      <small>You or your sponsors pay the study and living costs.</small>
     </button>
 
-    <button class="option" data-value="4">
-      <strong>Gubkin University</strong>
-      <span>Moscow, Russia</span>
-    </button>
+    <div class="actions">
+      <button class="continue" id="continue1">Continue</button>
+    </div>
+  </section>
 
-    <button class="option" data-value="5">
-      <strong>Lomonosov Moscow State University</strong>
-      <span>Moscow, Russia</span>
-    </button>
+  <!-- STEP 2: UNIVERSITY -->
+  <section id="step2" class="step">
+    <h2>Step 2: University selection</h2>
+    <p class="subtitle">Which university are you planning to attend?</p>
 
-    <button class="option" data-value="1">
-      <strong>Kazan Federal University</strong>
-      <span>Kazan, Russia</span>
-    </button>
+    <button class="option" data-value="3">RUDN University</button>
+    <button class="option" data-value="4">Gubkin University</button>
+    <button class="option" data-value="5">Lomonosov Moscow State University</button>
+    <button class="option" data-value="1">Kazan Federal University</button>
+    <button class="option" data-value="2">Saint Petersburg State University</button>
 
-    <button class="option" data-value="2">
-      <strong>Saint Petersburg State University</strong>
-      <span>Saint Petersburg, Russia</span>
-    </button>
-  </div>
+    <div class="actions">
+      <button class="back" id="back2">Back</button>
+      <button class="continue" id="continue2">Continue</button>
+    </div>
+  </section>
 
-  <button class="continue" id="universityContinue" disabled>
-    Continue
-  </button>
+  <!-- STEP 3: PROGRAMME -->
+  <section id="step3" class="step">
+    <h2>Step 3: Programme selection</h2>
+    <p class="subtitle">
+      Select the programme you intend to study.
+    </p>
 
-  <button class="back" id="backButton">
-    Back
-  </button>
-</section>
+    <div id="programmeOptions"></div>
 
-<div class="message" id="message" aria-live="polite"></div>
+    <div class="actions">
+      <button class="back" id="back3">Back</button>
+      <button class="continue" id="continue3">Continue</button>
+    </div>
 
+    <p class="note">
+      Programme information is preliminary. Availability, language of
+      instruction and scholarship eligibility must be confirmed with
+      the university before making financial decisions.
+    </p>
+  </section>
+
+  <!-- STEP 4: NEXT STAGE PLACEHOLDER -->
+  <section id="step4" class="step">
+    <h2>Programme selected!</h2>
+    <p class="subtitle">
+      Your initial study plan details have been recorded in this session.
+    </p>
+
+    <div id="summary" class="message"></div>
+
+    <p class="note">
+      The next stage will collect your travel details and calculate
+      your estimated pre-departure and first-year study budget.
+    </p>
+
+    <div class="actions">
+      <button class="back" id="back4">Back</button>
+    </div>
+  </section>
 </main>
 
-<footer>
-  AfroRus Workforce · Study Planner<br>
-  Financial estimates are not guarantees of funding or admission.
-</footer>
-
 <script>
-let selectedRoute = null;
-let selectedUniversity = null;
+  let selectedRoute = "";
+  let selectedUniversity = "";
+  let selectedProgramme = "";
 
-const fundingScreen = document.getElementById("fundingScreen");
-const universityScreen = document.getElementById("universityScreen");
-const message = document.getElementById("message");
+  const universities = {
+    "1": {
+      name: "Kazan Federal University",
+      programmes: [
+        "Petroleum Engineering",
+        "Complex Data Analysis in Geosciences"
+      ]
+    },
+    "2": {
+      name: "Saint Petersburg State University",
+      programmes: []
+    },
+    "3": {
+      name: "RUDN University",
+      programmes: [
+        "Bioenergies and Biorefineries",
+        "Oil and Gas Engineering"
+      ]
+    },
+    "4": {
+      name: "Gubkin University",
+      programmes: [
+        "Petroleum Engineering"
+      ]
+    },
+    "5": {
+      name: "Lomonosov Moscow State University",
+      programmes: []
+    }
+  };
 
-function setupSelection(containerId, callback, continueId) {
-  const container = document.getElementById(containerId);
-  const buttons = container.querySelectorAll(".option");
-  const continueButton = document.getElementById(continueId);
+  function showStep(stepNumber) {
+    document.querySelectorAll(".step").forEach(section => {
+      section.classList.remove("active");
+    });
 
-  buttons.forEach(button => {
-    button.setAttribute("aria-pressed", "false");
+    document.getElementById("step" + stepNumber).classList.add("active");
+  }
 
-    button.addEventListener("click", () => {
-      buttons.forEach(item => {
-        item.classList.remove("selected");
-        item.setAttribute("aria-pressed", "false");
+  function setupSelection(sectionId, callback) {
+    const section = document.getElementById(sectionId);
+
+    section.querySelectorAll(".option").forEach(button => {
+      button.addEventListener("click", () => {
+        section.querySelectorAll(".option").forEach(option => {
+          option.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+        callback(button.dataset.value);
+      });
+    });
+  }
+
+  setupSelection("step1", value => {
+    selectedRoute = value;
+  });
+
+  setupSelection("step2", value => {
+    selectedUniversity = value;
+    selectedProgramme = "";
+  });
+
+  document.getElementById("continue1").addEventListener("click", () => {
+    if (!selectedRoute) {
+      alert("Please select a funding route first.");
+      return;
+    }
+
+    showStep(2);
+  });
+
+  document.getElementById("back2").addEventListener("click", () => {
+    showStep(1);
+  });
+
+  document.getElementById("continue2").addEventListener("click", () => {
+    if (!selectedUniversity) {
+      alert("Please select a university first.");
+      return;
+    }
+
+    loadProgrammes();
+    showStep(3);
+  });
+
+  document.getElementById("back3").addEventListener("click", () => {
+    showStep(2);
+  });
+
+  function loadProgrammes() {
+    const container = document.getElementById("programmeOptions");
+    const university = universities[selectedUniversity];
+
+    container.innerHTML = "";
+
+    if (university.programmes.length === 0) {
+      container.innerHTML = `
+        <div class="message">
+          Programme information for ${university.name} is still being
+          verified. Please check the university's official programme
+          catalogue before proceeding.
+        </div>
+        <button class="option" data-value="NOT_YET_SELECTED">
+          Continue with programme to be confirmed
+        </button>
+      `;
+
+      container.querySelector(".option").addEventListener("click", event => {
+        selectedProgramme = event.currentTarget.dataset.value;
+        event.currentTarget.classList.add("selected");
       });
 
-      button.classList.add("selected");
-      button.setAttribute("aria-pressed", "true");
+      return;
+    }
 
-      callback(button.dataset.value);
-      continueButton.disabled = false;
-      message.textContent = "";
+    university.programmes.forEach(programme => {
+      const button = document.createElement("button");
+      button.className = "option";
+      button.textContent = programme;
+      button.dataset.value = programme;
+
+      button.addEventListener("click", () => {
+        container.querySelectorAll(".option").forEach(option => {
+          option.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+        selectedProgramme = programme;
+      });
+
+      container.appendChild(button);
     });
+  }
+
+  document.getElementById("continue3").addEventListener("click", () => {
+    if (!selectedProgramme) {
+      alert("Please select a programme or choose the option to confirm it later.");
+      return;
+    }
+
+    const routeNames = {
+      RU_GOV_QUOTA: "Russian Government Scholarship",
+      OPEN_DOORS: "Open Doors Scholarship",
+      SELF_FUNDED: "Self-funded Admission"
+    };
+
+    document.getElementById("summary").innerHTML = `
+      <strong>Funding route:</strong> ${routeNames[selectedRoute]}<br><br>
+      <strong>University:</strong> ${universities[selectedUniversity].name}<br><br>
+      <strong>Programme:</strong> ${
+        selectedProgramme === "NOT_YET_SELECTED"
+          ? "To be confirmed"
+          : selectedProgramme
+      }
+    `;
+
+    showStep(4);
   });
-}
 
-setupSelection(
-  "fundingOptions",
-  value => selectedRoute = value,
-  "fundingContinue"
-);
-
-setupSelection(
-  "universityOptions",
-  value => selectedUniversity = value,
-  "universityContinue"
-);
-
-document.getElementById("fundingContinue").addEventListener("click", () => {
-  if (!selectedRoute) return;
-
-  fundingScreen.classList.add("hidden");
-  universityScreen.classList.remove("hidden");
-  message.textContent = "";
-  window.scrollTo(0, 0);
-});
-
-document.getElementById("backButton").addEventListener("click", () => {
-  universityScreen.classList.add("hidden");
-  fundingScreen.classList.remove("hidden");
-  message.textContent = "";
-  window.scrollTo(0, 0);
-});
-
-document.getElementById("universityContinue").addEventListener("click", () => {
-  if (!selectedUniversity) return;
-
-  message.textContent =
-    "University selected. The programme selection screen is our next stage.";
-});
+  document.getElementById("back4").addEventListener("click", () => {
+    loadProgrammes();
+    showStep(3);
+  });
 </script>
-
 </body>
 </html>
