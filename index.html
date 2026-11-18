@@ -1,16 +1,204 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AfroRus Study Planner</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AfroRus Study Planner</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #17243a;
+}
+
+header {
+  background: #102b50;
+  color: white;
+  padding: 22px 18px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 23px;
+}
+
+header p {
+  margin: 7px 0 0;
+  color: #d9e5f5;
+  font-size: 14px;
+}
+
+main {
+  max-width: 760px;
+  margin: 38px auto;
+  padding: 0 18px;
+}
+
+.progress {
+  color: #52708f;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: 27px;
+  margin-bottom: 10px;
+}
+
+.intro {
+  color: #617086;
+  line-height: 1.6;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 19px;
+  margin: 14px 0;
+  border: 2px solid #dce4ee;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+}
+
+.option.selected {
+  border-color: #1768b2;
+  background: #edf6ff;
+}
+
+.option strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 7px;
+}
+
+.option span {
+  color: #64748b;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+button:focus-visible {
+  outline: 3px solid #f0a83a;
+  outline-offset: 3px;
+}
+
+.continue {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 9px;
+  background: #1768b2;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.continue:disabled {
+  background: #aab8c8;
+  cursor: not-allowed;
+}
+
+.message {
+  color: #a33b32;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+footer {
+  text-align: center;
+  color: #78869a;
+  padding: 25px 15px;
+  font-size: 12px;
+}
+</style>
 </head>
+
 <body>
-  <main>
-    <h1>AfroRus Study Planner</h1>
-    <p>Plan your studies in Russia. Prepare your finances with confidence.</p>
-    <p>Your study budget calculator is coming soon.</p>
-  </main>
+
+<header>
+  <h1>AfroRus Study Planner</h1>
+  <p>Your gateway to informed study planning in Russia</p>
+</header>
+
+<main>
+  <div class="progress">STEP 1 OF 7</div>
+
+  <h2>Choose Your Funding Route</h2>
+
+  <p class="intro">
+    How do you plan to finance your studies in Russia?
+    Select the option that best describes your situation.
+  </p>
+
+  <div id="options">
+    <button class="option" data-value="RU_GOV_QUOTA">
+      <strong>Russian Government Scholarship</strong>
+      <span>For students selected through the Russian Government scholarship quota.</span>
+    </button>
+
+    <button class="option" data-value="OPEN_DOORS">
+      <strong>Open Doors Scholarship</strong>
+      <span>For students applying through the Open Doors International Olympiad.</span>
+    </button>
+
+    <button class="option" data-value="SELF_FUNDED">
+      <strong>Self-funded Admission</strong>
+      <span>For students financing their own tuition and study-related expenses.</span>
+    </button>
+  </div>
+
+  <button class="continue" id="continueButton" disabled>
+    Continue
+  </button>
+
+  <div class="message" id="message" aria-live="polite"></div>
+</main>
+
+<footer>
+  AfroRus Workforce · Study Planner<br>
+  Financial estimates are not guarantees of funding or admission.
+</footer>
+
+<script>
+let selectedRoute = null;
+
+const options = document.querySelectorAll(".option");
+const continueButton = document.getElementById("continueButton");
+const message = document.getElementById("message");
+
+options.forEach(option => {
+  option.addEventListener("click", () => {
+    options.forEach(item => {
+      item.classList.remove("selected");
+      item.setAttribute("aria-pressed", "false");
+    });
+
+    option.classList.add("selected");
+    option.setAttribute("aria-pressed", "true");
+
+    selectedRoute = option.dataset.value;
+    continueButton.disabled = false;
+    message.textContent = "";
+  });
+});
+
+continueButton.addEventListener("click", () => {
+  if (!selectedRoute) return;
+
+  message.textContent =
+    "Your selection is " + selectedRoute +
+    ". The next calculator stage will be added soon.";
+});
+</script>
+
 </body>
 </html>
