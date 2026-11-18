@@ -474,15 +474,7 @@ document.getElementById("continue4").addEventListener("click", () => {
     return;
   }
 
-  const summary = document.getElementById("travelSummary");
-
-  summary.textContent =
-    "Departure: " + departureCity + ", " + departureCountry +
-    " | Residence: " + residenceCountry +
-    " | Passport: " + passportStatus +
-    " | Intake: " + intakeMonth + " " + intakeYear +
-    " | Degree: " + degreeLevel;
-
+  
   loadCoverage();
 showStep(5);
 });
