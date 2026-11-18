@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,16 +21,8 @@ header {
   padding: 22px 18px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 23px;
-}
-
-header p {
-  margin: 7px 0 0;
-  color: #d9e5f5;
-  font-size: 14px;
-}
+header h1 { margin: 0; font-size: 23px; }
+header p { color: #d9e5f5; font-size: 14px; }
 
 main {
   max-width: 760px;
@@ -45,10 +36,7 @@ main {
   margin-bottom: 12px;
 }
 
-h2 {
-  font-size: 27px;
-  margin-bottom: 10px;
-}
+h2 { font-size: 27px; margin-bottom: 10px; }
 
 .intro {
   color: #617086;
@@ -84,27 +72,33 @@ h2 {
   font-size: 14px;
 }
 
-button:focus-visible {
-  outline: 3px solid #f0a83a;
-  outline-offset: 3px;
+.continue, .back {
+  padding: 15px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .continue {
   width: 100%;
-  padding: 15px;
   border: none;
-  border-radius: 9px;
   background: #1768b2;
   color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
   margin-top: 16px;
 }
 
 .continue:disabled {
   background: #aab8c8;
   cursor: not-allowed;
+}
+
+.back {
+  width: 100%;
+  margin-top: 10px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #29425e;
 }
 
 .message {
@@ -119,6 +113,8 @@ footer {
   padding: 25px 15px;
   font-size: 12px;
 }
+
+.hidden { display: none; }
 </style>
 </head>
 
@@ -130,16 +126,16 @@ footer {
 </header>
 
 <main>
+
+<section id="fundingScreen">
   <div class="progress">STEP 1 OF 7</div>
-
   <h2>Choose Your Funding Route</h2>
-
   <p class="intro">
     How do you plan to finance your studies in Russia?
     Select the option that best describes your situation.
   </p>
 
-  <div id="options">
+  <div id="fundingOptions">
     <button class="option" data-value="RU_GOV_QUOTA">
       <strong>Russian Government Scholarship</strong>
       <span>For students selected through the Russian Government scholarship quota.</span>
@@ -156,11 +152,57 @@ footer {
     </button>
   </div>
 
-  <button class="continue" id="continueButton" disabled>
+  <button class="continue" id="fundingContinue" disabled>
+    Continue
+  </button>
+</section>
+
+<section id="universityScreen" class="hidden">
+  <div class="progress">STEP 2 OF 7</div>
+  <h2>Choose Your University</h2>
+  <p class="intro">
+    Where are you planning to study in Russia?
+    Select your preferred university.
+  </p>
+
+  <div id="universityOptions">
+    <button class="option" data-value="3">
+      <strong>RUDN University</strong>
+      <span>Moscow, Russia</span>
+    </button>
+
+    <button class="option" data-value="4">
+      <strong>Gubkin University</strong>
+      <span>Moscow, Russia</span>
+    </button>
+
+    <button class="option" data-value="5">
+      <strong>Lomonosov Moscow State University</strong>
+      <span>Moscow, Russia</span>
+    </button>
+
+    <button class="option" data-value="1">
+      <strong>Kazan Federal University</strong>
+      <span>Kazan, Russia</span>
+    </button>
+
+    <button class="option" data-value="2">
+      <strong>Saint Petersburg State University</strong>
+      <span>Saint Petersburg, Russia</span>
+    </button>
+  </div>
+
+  <button class="continue" id="universityContinue" disabled>
     Continue
   </button>
 
-  <div class="message" id="message" aria-live="polite"></div>
+  <button class="back" id="backButton">
+    Back
+  </button>
+</section>
+
+<div class="message" id="message" aria-live="polite"></div>
+
 </main>
 
 <footer>
@@ -170,33 +212,69 @@ footer {
 
 <script>
 let selectedRoute = null;
+let selectedUniversity = null;
 
-const options = document.querySelectorAll(".option");
-const continueButton = document.getElementById("continueButton");
+const fundingScreen = document.getElementById("fundingScreen");
+const universityScreen = document.getElementById("universityScreen");
 const message = document.getElementById("message");
 
-options.forEach(option => {
-  option.addEventListener("click", () => {
-    options.forEach(item => {
-      item.classList.remove("selected");
-      item.setAttribute("aria-pressed", "false");
+function setupSelection(containerId, callback, continueId) {
+  const container = document.getElementById(containerId);
+  const buttons = container.querySelectorAll(".option");
+  const continueButton = document.getElementById(continueId);
+
+  buttons.forEach(button => {
+    button.setAttribute("aria-pressed", "false");
+
+    button.addEventListener("click", () => {
+      buttons.forEach(item => {
+        item.classList.remove("selected");
+        item.setAttribute("aria-pressed", "false");
+      });
+
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
+
+      callback(button.dataset.value);
+      continueButton.disabled = false;
+      message.textContent = "";
     });
-
-    option.classList.add("selected");
-    option.setAttribute("aria-pressed", "true");
-
-    selectedRoute = option.dataset.value;
-    continueButton.disabled = false;
-    message.textContent = "";
   });
-});
+}
 
-continueButton.addEventListener("click", () => {
+setupSelection(
+  "fundingOptions",
+  value => selectedRoute = value,
+  "fundingContinue"
+);
+
+setupSelection(
+  "universityOptions",
+  value => selectedUniversity = value,
+  "universityContinue"
+);
+
+document.getElementById("fundingContinue").addEventListener("click", () => {
   if (!selectedRoute) return;
 
+  fundingScreen.classList.add("hidden");
+  universityScreen.classList.remove("hidden");
+  message.textContent = "";
+  window.scrollTo(0, 0);
+});
+
+document.getElementById("backButton").addEventListener("click", () => {
+  universityScreen.classList.add("hidden");
+  fundingScreen.classList.remove("hidden");
+  message.textContent = "";
+  window.scrollTo(0, 0);
+});
+
+document.getElementById("universityContinue").addEventListener("click", () => {
+  if (!selectedUniversity) return;
+
   message.textContent =
-    "Your selection is " + selectedRoute +
-    ". The next calculator stage will be added soon.";
+    "University selected. The programme selection screen is our next stage.";
 });
 </script>
 
