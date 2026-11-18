@@ -290,17 +290,83 @@
   </p>
 </section>
 
-<!-- STEP 6: NEXT STAGE PLACEHOLDER -->
+
+<!-- STEP 6: PERSONAL FINANCIAL SITUATION -->
 <section id="step6" class="step">
-  <h2>Scholarship coverage reviewed</h2>
+  <h2>Step 6: Personal Financial Situation</h2>
   <p class="subtitle">
-    Your coverage selections have been captured in this browser session.
+    Tell us what financial resources you currently have available.
+    These figures are used only in this browser session.
   </p>
-  <div id="coverageSummary" class="message"></div>
+
+  <label for="savingsAmount">Your current personal savings</label>
+  <input
+    id="savingsAmount"
+    type="number"
+    min="0"
+    step="0.01"
+    placeholder="Enter your savings"
+    class="option"
+  >
+
+  <label for="savingsCurrency">Savings currency</label>
+  <select id="savingsCurrency" class="option">
+    <option value="TZS">Tanzanian Shilling (TZS)</option>
+    <option value="RUB">Russian Ruble (RUB)</option>
+    <option value="USD">US Dollar (USD)</option>
+  </select>
+
+  <label for="familyAmount">Confirmed family contribution</label>
+  <input
+    id="familyAmount"
+    type="number"
+    min="0"
+    step="0.01"
+    placeholder="Enter confirmed family support"
+    class="option"
+  >
+
+  <label for="familyCurrency">Family contribution currency</label>
+  <select id="familyCurrency" class="option">
+    <option value="TZS">Tanzanian Shilling (TZS)</option>
+    <option value="RUB">Russian Ruble (RUB)</option>
+    <option value="USD">US Dollar (USD)</option>
+  </select>
+
+  <label for="monthsRemaining">Months remaining before departure</label>
+  <input
+    id="monthsRemaining"
+    type="number"
+    min="1"
+    max="120"
+    step="1"
+    placeholder="For example: 8"
+    class="option"
+  >
+
   <div class="actions">
     <button class="back" id="back6">Back</button>
+    <button class="continue" id="continue6">Continue</button>
+  </div>
+
+  <p class="note">
+    Enter only savings and family support that are genuinely available
+    or confirmed. Do not include hoped-for or unconfirmed funding.
+  </p>
+</section>
+
+<!-- STEP 7: FUNDING SUMMARY -->
+<section id="step7" class="step">
+  <h2>Financial information received</h2>
+  <p class="subtitle">
+    Your financial information has been captured in this browser session.
+  </p>
+  <div id="financialSummary" class="message"></div>
+  <div class="actions">
+    <button class="back" id="back7">Back</button>
   </div>
 </section>
+
 
 
 </main>
@@ -583,6 +649,7 @@ function loadCoverage() {
   });
 }
 
+
 document.getElementById("continue5").addEventListener("click", () => {
   const summary = document.getElementById("coverageSummary");
   summary.innerHTML = "";
@@ -596,6 +663,47 @@ document.getElementById("continue5").addEventListener("click", () => {
     line.textContent = item.name + ": " + status.label;
     summary.appendChild(line);
   });
+
+  showStep(6);
+});
+
+document.getElementById("back6").addEventListener("click", () => {
+  showStep(5);
+});
+
+document.getElementById("continue6").addEventListener("click", () => {
+  const savings = document.getElementById("savingsAmount").value;
+  const savingsCurrency = document.getElementById("savingsCurrency").value;
+  const family = document.getElementById("familyAmount").value;
+  const familyCurrency = document.getElementById("familyCurrency").value;
+  const months = document.getElementById("monthsRemaining").value;
+
+  if (savings === "" || family === "" || months === "") {
+    alert("Please complete all financial fields. Enter 0 if you have no savings or family contribution.");
+    return;
+  }
+
+  if (Number(savings) < 0 || Number(family) < 0 ||
+      !Number.isInteger(Number(months)) ||
+      Number(months) < 1 || Number(months) > 120) {
+    alert("Please enter valid amounts and a period of 1 to 120 months.");
+    return;
+  }
+
+  const summary = document.getElementById("financialSummary");
+
+  summary.textContent =
+    "Personal savings: " + savings + " " + savingsCurrency +
+    " | Confirmed family contribution: " + family + " " + familyCurrency +
+    " | Months remaining: " + months;
+
+  showStep(7);
+});
+
+document.getElementById("back7").addEventListener("click", () => {
+  showStep(6);
+});
+
 
   showStep(6);
 });
