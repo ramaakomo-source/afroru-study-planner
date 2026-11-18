@@ -268,17 +268,40 @@
     </div>
   </section>
 
-  <!-- STEP 5: NEXT STAGE PLACEHOLDER -->
-  <section id="step5" class="step">
-    <h2>Travel details saved</h2>
-    <p class="subtitle">
-      Your travel information has been captured in this browser session.
-    </p>
-    <div id="travelSummary" class="message"></div>
-    <div class="actions">
-      <button class="back" id="back5">Back</button>
-    </div>
-  </section>
+  
+<!-- STEP 5: SCHOLARSHIP COVERAGE -->
+<section id="step5" class="step">
+  <h2>Step 5: Scholarship Coverage</h2>
+  <p class="subtitle">
+    Review what your scholarship is expected to cover. You can correct each answer.
+  </p>
+
+  <div id="coverageOptions"></div>
+
+  <div class="actions">
+    <button class="back" id="back5">Back</button>
+    <button class="continue" id="continue5">Continue</button>
+  </div>
+
+  <p class="note">
+    These are preliminary reference suggestions, not a guarantee of
+    individual scholarship benefits. Confirm all benefits with your
+    university or scholarship provider.
+  </p>
+</section>
+
+<!-- STEP 6: NEXT STAGE PLACEHOLDER -->
+<section id="step6" class="step">
+  <h2>Scholarship coverage reviewed</h2>
+  <p class="subtitle">
+    Your coverage selections have been captured in this browser session.
+  </p>
+  <div id="coverageSummary" class="message"></div>
+  <div class="actions">
+    <button class="back" id="back6">Back</button>
+  </div>
+</section>
+
 
 </main>
 
@@ -460,11 +483,133 @@ document.getElementById("continue4").addEventListener("click", () => {
     " | Intake: " + intakeMonth + " " + intakeYear +
     " | Degree: " + degreeLevel;
 
-  showStep(5);
+  loadCoverage();
+showStep(5);
 });
 
 document.getElementById("back5").addEventListener("click", () => {
   showStep(4);
+});
+
+const coverageItems = [
+  { id: "tuition", name: "Tuition fees" },
+  { id: "stipend", name: "Monthly scholarship stipend" },
+  { id: "accommodation", name: "Accommodation" },
+  { id: "travel", name: "International travel" },
+  { id: "medical", name: "Medical insurance and examination" },
+  { id: "food", name: "Food expenses" },
+  { id: "transport", name: "Local transport" }
+];
+
+const coverageStatuses = [
+  { value: "covered", label: "Covered by scholarship" },
+  { value: "partially_covered", label: "Partially covered" },
+  { value: "not_covered", label: "Not covered — student pays" },
+  { value: "unknown", label: "Unknown — needs verification" }
+];
+
+let selectedCoverage = {};
+
+function getCoverageSuggestion(route, itemId) {
+  if (itemId === "tuition") {
+    if (route === "RU_GOV_QUOTA" || route === "OPEN_DOORS") {
+      return "covered";
+    }
+    return "not_covered";
+  }
+
+  if (itemId === "stipend") {
+    if (route === "RU_GOV_QUOTA") return "covered";
+    if (route === "SELF_FUNDED") return "not_covered";
+    return "unknown";
+  }
+
+  if (itemId === "accommodation") {
+    if (route === "OPEN_DOORS" || route === "SELF_FUNDED") {
+      return "not_covered";
+    }
+    return "unknown";
+  }
+
+  if (route === "SELF_FUNDED") return "not_covered";
+
+  if (route === "OPEN_DOORS") {
+    if (["travel", "food", "transport"].includes(itemId)) {
+      return "not_covered";
+    }
+    return "unknown";
+  }
+
+  if (route === "RU_GOV_QUOTA") {
+    if (["travel", "food", "transport"].includes(itemId)) {
+      return "not_covered";
+    }
+    return "unknown";
+  }
+
+  return "unknown";
+}
+
+function loadCoverage() {
+  const container = document.getElementById("coverageOptions");
+  container.innerHTML = "";
+  selectedCoverage = {};
+
+  coverageItems.forEach(item => {
+    const suggested = getCoverageSuggestion(selectedRoute, item.id);
+    selectedCoverage[item.id] = suggested;
+
+    const wrapper = document.createElement("div");
+    wrapper.style.marginBottom = "20px";
+
+    const label = document.createElement("label");
+    label.textContent = item.name;
+    label.style.fontWeight = "bold";
+    label.style.display = "block";
+    label.style.marginBottom = "7px";
+
+    const select = document.createElement("select");
+    select.className = "option";
+    select.style.margin = "0";
+
+    coverageStatuses.forEach(status => {
+      const option = document.createElement("option");
+      option.value = status.value;
+      option.textContent = status.label;
+      select.appendChild(option);
+    });
+
+    select.value = suggested;
+
+    select.addEventListener("change", () => {
+      selectedCoverage[item.id] = select.value;
+    });
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(select);
+    container.appendChild(wrapper);
+  });
+}
+
+document.getElementById("continue5").addEventListener("click", () => {
+  const summary = document.getElementById("coverageSummary");
+  summary.innerHTML = "";
+
+  coverageItems.forEach(item => {
+    const status = coverageStatuses.find(
+      option => option.value === selectedCoverage[item.id]
+    );
+
+    const line = document.createElement("p");
+    line.textContent = item.name + ": " + status.label;
+    summary.appendChild(line);
+  });
+
+  showStep(6);
+});
+
+document.getElementById("back6").addEventListener("click", () => {
+  showStep(5);
 });
 
 </script>
