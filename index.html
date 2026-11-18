@@ -191,24 +191,95 @@
     </p>
   </section>
 
-  <!-- STEP 4: NEXT STAGE PLACEHOLDER -->
+ 
+  <!-- STEP 4: APPLICANT AND TRAVEL DETAILS -->
   <section id="step4" class="step">
-    <h2>Programme selected!</h2>
+    <h2>Step 4: Applicant & Travel Details</h2>
     <p class="subtitle">
-      Your initial study plan details have been recorded in this session.
+      Tell us about your travel plans so we can estimate your preparation costs.
     </p>
 
-    <div id="summary" class="message"></div>
+    <label for="departureCountry">Departure country</label>
+    <select id="departureCountry" class="option">
+      <option value="TZ">Tanzania</option>
+      <option value="OTHER">Other country</option>
+    </select>
 
-    <p class="note">
-      The next stage will collect your travel details and calculate
-      your estimated pre-departure and first-year study budget.
-    </p>
+    <label for="departureCity">Departure city</label>
+    <select id="departureCity" class="option">
+      <option value="1">Dar es Salaam</option>
+      <option value="OTHER">Other city</option>
+    </select>
+
+    <label for="residenceCountry">Current country of residence</label>
+    <select id="residenceCountry" class="option">
+      <option value="TZ">Tanzania</option>
+      <option value="RU">Russia</option>
+      <option value="PL">Poland</option>
+      <option value="OTHER">Other country</option>
+    </select>
+
+    <label for="passportStatus">Passport status</label>
+    <select id="passportStatus" class="option">
+      <option value="">Select passport status</option>
+      <option value="valid">Valid passport</option>
+      <option value="needs_new">I need a new passport</option>
+      <option value="expiring_soon">Expiring soon</option>
+      <option value="unsure">Not sure</option>
+    </select>
+
+    <label for="intakeMonth">Intended intake month</label>
+    <select id="intakeMonth" class="option">
+      <option value="">Select month</option>
+      <option>January</option>
+      <option>February</option>
+      <option>March</option>
+      <option>April</option>
+      <option>May</option>
+      <option>June</option>
+      <option>July</option>
+      <option>August</option>
+      <option>September</option>
+      <option>October</option>
+      <option>November</option>
+      <option>December</option>
+    </select>
+
+    <label for="intakeYear">Intended intake year</label>
+    <select id="intakeYear" class="option">
+      <option value="">Select year</option>
+      <option>2026</option>
+      <option selected>2027</option>
+      <option>2028</option>
+      <option>2029</option>
+    </select>
+
+    <label for="degreeLevel">Degree level</label>
+    <select id="degreeLevel" class="option">
+      <option value="">Select degree level</option>
+      <option>Bachelor's</option>
+      <option selected>Master's</option>
+      <option>PhD</option>
+    </select>
 
     <div class="actions">
       <button class="back" id="back4">Back</button>
+      <button class="continue" id="continue4">Continue</button>
     </div>
   </section>
+
+  <!-- STEP 5: NEXT STAGE PLACEHOLDER -->
+  <section id="step5" class="step">
+    <h2>Travel details saved</h2>
+    <p class="subtitle">
+      Your travel information has been captured in this browser session.
+    </p>
+    <div id="travelSummary" class="message"></div>
+    <div class="actions">
+      <button class="back" id="back5">Back</button>
+    </div>
+  </section>
+
 </main>
 
 <script>
@@ -351,35 +422,51 @@
     });
   }
 
-  document.getElementById("continue3").addEventListener("click", () => {
-    if (!selectedProgramme) {
-      alert("Please select a programme or choose the option to confirm it later.");
-      return;
-    }
+ 
+document.getElementById("continue3").addEventListener("click", () => {
+  if (!selectedProgramme) {
+    alert("Please select a programme first.");
+    return;
+  }
 
-    const routeNames = {
-      RU_GOV_QUOTA: "Russian Government Scholarship",
-      OPEN_DOORS: "Open Doors Scholarship",
-      SELF_FUNDED: "Self-funded Admission"
-    };
+  showStep(4);
+});
 
-    document.getElementById("summary").innerHTML = `
-      <strong>Funding route:</strong> ${routeNames[selectedRoute]}<br><br>
-      <strong>University:</strong> ${universities[selectedUniversity].name}<br><br>
-      <strong>Programme:</strong> ${
-        selectedProgramme === "NOT_YET_SELECTED"
-          ? "To be confirmed"
-          : selectedProgramme
-      }
-    `;
+document.getElementById("back4").addEventListener("click", () => {
+  loadProgrammes();
+  showStep(3);
+});
 
-    showStep(4);
-  });
+document.getElementById("continue4").addEventListener("click", () => {
+  const departureCountry = document.getElementById("departureCountry").value;
+  const departureCity = document.getElementById("departureCity").value;
+  const residenceCountry = document.getElementById("residenceCountry").value;
+  const passportStatus = document.getElementById("passportStatus").value;
+  const intakeMonth = document.getElementById("intakeMonth").value;
+  const intakeYear = document.getElementById("intakeYear").value;
+  const degreeLevel = document.getElementById("degreeLevel").value;
 
-  document.getElementById("back4").addEventListener("click", () => {
-    loadProgrammes();
-    showStep(3);
-  });
+  if (!passportStatus || !intakeMonth || !intakeYear || !degreeLevel) {
+    alert("Please complete all required fields.");
+    return;
+  }
+
+  const summary = document.getElementById("travelSummary");
+
+  summary.textContent =
+    "Departure: " + departureCity + ", " + departureCountry +
+    " | Residence: " + residenceCountry +
+    " | Passport: " + passportStatus +
+    " | Intake: " + intakeMonth + " " + intakeYear +
+    " | Degree: " + degreeLevel;
+
+  showStep(5);
+});
+
+document.getElementById("back5").addEventListener("click", () => {
+  showStep(4);
+});
+
 </script>
 </body>
 </html>
