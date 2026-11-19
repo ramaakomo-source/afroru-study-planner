@@ -467,6 +467,9 @@ function isBudgetCalculationSupported(universityId) {
     if (!selectedUniversity) {
       alert("Please select a university first.");
       return;
+      if (!isBudgetCalculationSupported(selectedUniversity)) {
+  alert("The budget calculator currently supports RUDN University only. Other universities are being added.");
+}
     }
 
     loadProgrammes();
