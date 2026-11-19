@@ -738,7 +738,41 @@ async function calculateStudyBudget(payload) {
   }
 
   return result.budget;
-}
+} // TEMPORARY SUPABASE CONNECTION TEST
+document.getElementById("testSupabase").addEventListener("click", async function () {
+  const resultBox = document.getElementById("supabaseTestResult");
+
+  resultBox.textContent = "Connecting to Supabase...";
+
+  try {
+    const budget = await calculateStudyBudget({
+      p_departure_city_id: 1,
+      p_destination_city_id: 4,
+      p_university_id: 3,
+      p_passport_status: "valid",
+      p_current_residence_country: "TZ",
+      p_selected_conditional_ids: [10, 11],
+      p_quantities: {
+        "10": 1,
+        "11": 1
+      },
+      p_student_level: "Master",
+      p_funding_basis: "state_funded",
+      p_selected_accommodation_id: 20,
+      p_include_medical_package: false,
+      p_include_visa_extension: false,
+      p_rate_date: "2026-11-17"
+    });
+
+    resultBox.textContent =
+      "SUCCESS! Expected first-year budget: " +
+      budget.tzs_totals.expected.toLocaleString() +
+      " TZS";
+
+  } catch (error) {
+    resultBox.textContent = "ERROR: " + error.message;
+  }
+});
 </script>
 </body>
 </html>
