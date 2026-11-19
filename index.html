@@ -734,7 +734,9 @@ async function calculateStudyBudget(payload) {
   const result = await response.json();
 
   if (!response.ok || !result.success) {
-    throw new Error(result.error || "Budget calculation failed.");
+    throw new Error(
+  "HTTP " + response.status + ": " + JSON.stringify(result)
+);
   }
 
   return result.budget;
