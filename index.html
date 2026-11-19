@@ -413,7 +413,11 @@
       programmes: []
     }
   };
+const budgetSupportedUniversities = [3];
 
+function isBudgetCalculationSupported(universityId) {
+  return budgetSupportedUniversities.includes(Number(universityId));
+}
   function showStep(stepNumber) {
     document.querySelectorAll(".step").forEach(section => {
       section.classList.remove("active");
