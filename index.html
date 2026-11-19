@@ -705,6 +705,35 @@ document.getElementById("continue6").addEventListener("click", () => {
 document.getElementById("back7").addEventListener("click", () => {
   showStep(6);
 });
+  // SUPABASE CONNECTION
+const SUPABASE_URL = "https://olefrlrgpucztgncheds.supabase.co";
+
+// Paste your saved Supabase publishable key between these quotation marks.
+const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+
+// Send a budget calculation request to the Supabase Edge Function.
+async function calculateStudyBudget(payload) {
+  const response = await fetch(
+    `${SUPABASE_URL}/functions/v1/calculate-study-budget`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+      },
+      body: JSON.stringify(payload)
+    }
+  );
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.error || "Budget calculation failed.");
+  }
+
+  return result.budget;
+}
 </script>
 </body>
 </html>
