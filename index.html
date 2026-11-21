@@ -1237,6 +1237,14 @@ document.getElementById("budgetBreakdown").innerHTML = `
       <strong>${money(stages.pre_departure_tzs.expected, "TZS")}</strong>
     </div>
 
+<div class="expense-row">
+  <div>
+    <strong>International airfare (one-way)</strong>
+    <p>Flydubai planning estimate; shown in US dollars</p>
+  </div>
+  <strong>${money(stages.airfare_usd.expected, "USD")}</strong>
+</div>
+
     <div class="expense-row">
       <div>
         <strong>Arrival expenses</strong>
