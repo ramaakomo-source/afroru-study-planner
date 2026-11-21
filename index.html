@@ -989,7 +989,7 @@ document.getElementById("back7").addEventListener("click", () => {
   showStep(6);
 });
 
-document.getElementById("continue7").addEventListener("click", () => {
+document.getElementById("continue7").addEventListener("click", async () => {
   const savings = document.getElementById("savingsAmount").value;
   const savingsCurrency = document.getElementById("savingsCurrency").value;
   const family = document.getElementById("familyAmount").value;
@@ -1012,15 +1012,81 @@ document.getElementById("continue7").addEventListener("click", () => {
     return;
   }
 
-  const summary = document.getElementById("financialSummary");
+  if (Number(selectedUniversity) !== 3) {
+    alert("The live budget calculator currently supports RUDN University only.");
+    return;
+  }
 
-  summary.textContent =
-    "Personal savings: " + savings + " " + savingsCurrency +
-    " | Confirmed family contribution: " + family + " " + familyCurrency +
-    " | Months remaining: " + months;
+  if (!selectedAccommodationId) {
+    alert("Please select an accommodation option first.");
+    return;
+  }
+
+  const loading = document.getElementById("budgetLoading");
+  const errorBox = document.getElementById("budgetError");
+  const report = document.getElementById("budgetReport");
+
+  loading.textContent = "Calculating your study budget. Please wait...";
+  errorBox.textContent = "";
+  report.style.display = "none";
 
   showStep(8);
+
+  try {
+    const budget = await calculateStudyBudget({
+      p_departure_city_id: Number(selectedDepartureCity),
+      p_destination_city_id: 4,
+      p_university_id: Number(selectedUniversity),
+      p_passport_status: selectedPassportStatus,
+      p_current_residence_country: selectedResidenceCountry,
+      p_selected_conditional_ids: selectedConditionalIds,
+      p_quantities: selectedDocumentQuantities,
+      p_student_level: "Master",
+      p_funding_basis: selectedFundingBasis,
+      p_selected_accommodation_id: Number(selectedAccommodationId),
+      p_include_medical_package: false,
+      p_include_visa_extension: false,
+      p_rate_date: "2026-11-20"
+    });
+
+    const fundingGap = await calculateFundingGap({
+      p_budget_result: budget,
+      p_savings_amount: Number(savings),
+      p_savings_currency: savingsCurrency,
+      p_family_contribution: Number(family),
+      p_family_currency: familyCurrency,
+      p_months_remaining: Number(months),
+      p_rate_date: "2026-11-20"
+    });
+
+    document.getElementById("budgetSummary").textContent =
+      JSON.stringify(budget, null, 2);
+
+    document.getElementById("budgetBreakdown").textContent =
+      JSON.stringify(budget.stage_breakdown, null, 2);
+
+    document.getElementById("fundingSummary").textContent =
+      JSON.stringify(fundingGap, null, 2);
+
+    document.getElementById("fundingGapSummary").textContent =
+      JSON.stringify(fundingGap, null, 2);
+
+    document.getElementById("budgetWarnings").textContent =
+      JSON.stringify(budget.warnings, null, 2);
+
+    loading.textContent = "";
+    report.style.display = "block";
+
+  } catch (error) {
+    console.error(error);
+    loading.textContent = "";
+    errorBox.textContent =
+      "We could not calculate your budget. Please check your selections and try again. Details: " +
+      error.message;
+    report.style.display = "block";
+  }
 });
+
 
 document.getElementById("back8").addEventListener("click", () => {
   showStep(7);
