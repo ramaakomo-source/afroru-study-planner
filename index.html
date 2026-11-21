@@ -890,6 +890,34 @@ async function calculateStudyBudget(payload) {
   }
 
   return result.accommodation;
+}
+  // Calculate the applicant's remaining funding gap.
+async function calculateFundingGap(payload) {
+  const response = await fetch(
+    `${SUPABASE_URL}/functions/v1/calculate-study-budget`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+      },
+      body: JSON.stringify({
+        action: "calculate_funding_gap",
+        ...payload
+      })
+    }
+  );
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(
+      "HTTP " + response.status + ": " + JSON.stringify(result)
+    );
+  }
+
+  return result.funding_gap;
 }// TEMPORARY SUPABASE CONNECTION TEST
 document.getElementById("testSupabase").addEventListener("click", async function () {
   const resultBox = document.getElementById("supabaseTestResult");
