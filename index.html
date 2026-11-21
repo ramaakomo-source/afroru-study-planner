@@ -567,7 +567,7 @@ document.getElementById("continue4").addEventListener("click", () => {
     alert("Please confirm whether your university place is state-funded or contract-funded before continuing.");
     return;
   }
-
+  selectedFundingBasis = fundingBasis;
   loadCoverage();
   showStep(5);
 });
