@@ -1432,6 +1432,74 @@ document.getElementById("budgetWarnings").innerHTML = `
       Confirm which documents apply to you and verify current fees before travelling.
     </p>
 
+    <h3>Scholarship Expense Coverage</h3>
+
+    <p class="report-note">
+      The following statuses reflect your selections in the scholarship
+      coverage section. They are not independently verified.
+      No scholarship amounts have been deducted from your budget.
+    </p>
+
+    ${coverageItems.map(item => {
+      const selectedStatus = coverageStatuses.find(
+        status => status.value === selectedCoverage[item.id]
+      );
+
+      return `
+        <div class="expense-row">
+          <div>
+            <strong>${item.name}</strong>
+            <p>Applicant-selected coverage status</p>
+          </div>
+          <strong>${selectedStatus ? selectedStatus.label : "Unknown"}</strong>
+        </div>
+      `;
+    }).join("")}
+
+    <h3>Additional Scholarship Benefits</h3>
+
+    ${
+      selectedRoute === "RU_GOV_QUOTA"
+        ? `
+          <div class="expense-row">
+            <div>
+              <strong>Tuition support</strong>
+              <p>Subject to official selection and admission under the government quota.</p>
+            </div>
+            <strong>Recorded benefit</strong>
+          </div>
+
+          <div class="expense-row">
+            <div>
+              <strong>Monthly state academic scholarship</strong>
+              <p>Amount and payment arrangements require confirmation.</p>
+            </div>
+            <strong>Recorded benefit</strong>
+          </div>
+
+          <div class="expense-row">
+            <div>
+              <strong>University dormitory placement</strong>
+              <p>Placement is subject to eligibility and allocation. Accommodation fees may still apply.</p>
+            </div>
+            <strong>Recorded benefit</strong>
+          </div>
+        `
+        : `
+          <p class="report-note">
+            No additional benefit records are currently configured
+            for this funding route. Confirm any other benefits with
+            the scholarship provider or university.
+          </p>
+        `
+    }
+
+    <p class="report-note">
+      These recorded benefits have no confirmed monetary values in the
+      current database. They have not been deducted from your estimated
+      expenses or funding gap.
+    </p>
+
     <h3>Important Information</h3>
 
     <ul>
