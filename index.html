@@ -1326,6 +1326,7 @@ document.getElementById("fundingGapSummary").innerHTML = `
 const warningList = [
   ...(budget.warnings.living || []),
   budget.warnings.arrival,
+  budget.warnings.airfare,
   ...(fundingGap.warnings || [])
 ].filter(Boolean);
 
