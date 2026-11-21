@@ -727,6 +727,42 @@ selectedIntakeMonth = intakeMonth;
 selectedIntakeYear = intakeYear;
 selectedFundingBasis = fundingBasis;
 
+// Capture the applicant's selected pre-departure documents.
+selectedConditionalIds = [];
+
+const documentCheckboxes = [
+  "docPolice",
+  "docMFA",
+  "docNECTA",
+  "docRCC",
+  "docMedical",
+  "docTranslation",
+  "docDegreeTranslation",
+  "docLegalisation",
+  "docTranslationCertification"
+];
+
+documentCheckboxes.forEach(id => {
+  const checkbox = document.getElementById(id);
+
+  if (checkbox && checkbox.checked) {
+    selectedConditionalIds.push(Number(checkbox.value));
+  }
+});
+
+// Capture translation page quantities.
+selectedDocumentQuantities = {};
+
+if (document.getElementById("docTranslation").checked) {
+  selectedDocumentQuantities["16"] =
+    Number(document.getElementById("translationPages").value);
+}
+
+if (document.getElementById("docDegreeTranslation").checked) {
+  selectedDocumentQuantities["17"] =
+    Number(document.getElementById("degreeTranslationPages").value);
+}
+
   loadCoverage();
   showStep(5);
 });
