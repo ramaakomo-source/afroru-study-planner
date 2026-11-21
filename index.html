@@ -726,7 +726,23 @@ selectedDegreeLevel = degreeLevel;
 selectedIntakeMonth = intakeMonth;
 selectedIntakeYear = intakeYear;
 selectedFundingBasis = fundingBasis;
+if (document.getElementById("docTranslation").checked) {
+  const pages = Number(document.getElementById("translationPages").value);
 
+  if (!Number.isInteger(pages) || pages < 1 || pages > 100) {
+    alert("Please enter between 1 and 100 pages for general document translation.");
+    return;
+  }
+}
+
+if (document.getElementById("docDegreeTranslation").checked) {
+  const pages = Number(document.getElementById("degreeTranslationPages").value);
+
+  if (!Number.isInteger(pages) || pages < 1 || pages > 100) {
+    alert("Please enter between 1 and 100 pages for degree certificate translation.");
+    return;
+  }
+}
 // Capture the applicant's selected pre-departure documents.
 selectedConditionalIds = [];
 
