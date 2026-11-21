@@ -387,22 +387,56 @@
   </p>
 </section>
 
-<!-- STEP 7: FUNDING SUMMARY -->
-<section id="step7" class="step">
-  <h2>Financial information received</h2>
-  <p class="subtitle">
-    Your financial information has been captured in this browser session.
-  </p>
-  <div id="financialSummary" class="message"></div>
-  <button type="button" id="testSupabase">
-  Test Supabase Connection
-</button>
 
-<div id="supabaseTestResult"></div>
-  <div class="actions">
-    <button class="back" id="back7">Back</button>
+<!-- STEP 8: STUDY BUDGET REPORT -->
+<section id="step8" class="step">
+  <h2>Step 8: Your Study Budget Report</h2>
+  <p class="subtitle">
+    Review your estimated study costs, available funding and remaining financial gap.
+  </p>
+
+  <div id="financialSummary" class="message"></div>
+
+  <div id="budgetLoading" class="note">
+    Your budget report will appear here after calculation.
   </div>
+
+  <div id="budgetError" class="note"></div>
+
+  <div id="budgetReport">
+    <h3>Estimated First-Year Budget</h3>
+    <div id="budgetSummary"></div>
+
+    <h3>Cost Breakdown</h3>
+    <div id="budgetBreakdown"></div>
+
+    <h3>Your Available Funding</h3>
+    <div id="fundingSummary"></div>
+
+    <h3>Remaining Funding Gap</h3>
+    <div id="fundingGapSummary"></div>
+
+    <h3>Important Notes</h3>
+    <ul id="budgetWarnings"></ul>
+  </div>
+
+  <div>
+    <button type="button" id="testSupabase">
+      Test Supabase Connection
+    </button>
+    <div id="supabaseTestResult"></div>
+  </div>
+
+  <div class="actions">
+    <button class="back" id="back8">Back</button>
+  </div>
+
+  <p class="note">
+    This is a planning estimate, not a guarantee of admission, scholarship
+    funding or actual expenses. Some costs require verification.
+  </p>
 </section>
+
 
 
 
