@@ -623,7 +623,10 @@ document.getElementById("continue4").addEventListener("click", () => {
   const intakeYear = document.getElementById("intakeYear").value;
   const degreeLevel = document.getElementById("degreeLevel").value;
   const fundingBasis = document.getElementById("fundingBasis").value;
-
+if (departureCity !== "1") {
+  alert("Currently, the calculator supports departures from Dar es Salaam only. Other departure cities will be added later.");
+  return;
+}
   if (!passportStatus || !intakeMonth || !intakeYear || !degreeLevel || !fundingBasis) {
     alert("Please complete all required fields, including your funding basis.");
     return;
