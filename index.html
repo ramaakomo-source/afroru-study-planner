@@ -1190,8 +1190,43 @@ document.getElementById("fundingGapSummary").innerHTML = `
 `;
 
 
-    document.getElementById("budgetWarnings").textContent =
-      JSON.stringify(budget.warnings, null, 2);
+    
+const warningList = [
+  ...(budget.warnings.living || []),
+  budget.warnings.arrival,
+  ...(fundingGap.warnings || [])
+].filter(Boolean);
+
+const unverifiedAmount =
+  budget.unverified_predeparture_tzs.expected || 0;
+
+document.getElementById("budgetWarnings").innerHTML = `
+  <div class="report-card">
+    <h3>Important Information</h3>
+
+    <div class="expense-row">
+      <span>Unverified pre-departure expenses</span>
+      <strong>${money(unverifiedAmount)}</strong>
+    </div>
+
+    <p class="report-note">
+      These potential expenses are not included in your expected budget.
+      Confirm their applicability and current fees before travelling.
+    </p>
+
+    <ul>
+      ${warningList.map(warning => `<li>${warning}</li>`).join("")}
+      <li>International airfare is not included in this calculation.</li>
+      <li>Scholarship benefits have not yet been deducted from the budget.</li>
+      <li>All figures are planning estimates, not guaranteed final costs.</li>
+    </ul>
+
+    <p class="report-note">
+      Exchange rates used: ${budget.exchange_rate_date}.
+    </p>
+  </div>
+`;
+
 
     loading.textContent = "";
     report.style.display = "block";
