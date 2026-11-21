@@ -297,7 +297,31 @@
     university or scholarship provider.
   </p>
 </section>
+<section id="step6" class="step">
+  <h2>Step 6: Accommodation Selection</h2>
 
+  <p class="subtitle">
+    Review the university accommodation options available under your
+    selected funding basis.
+  </p>
+
+  <div id="accommodationEligibility"></div>
+
+  <div id="accommodationOptions"></div>
+
+  <div id="accommodationSummary"></div>
+
+  <div class="actions">
+    <button class="back" id="back6">Back</button>
+    <button class="continue" id="continue6">Continue</button>
+  </div>
+
+  <p class="note">
+    Accommodation eligibility does not guarantee room allocation.
+    Availability and tariffs must be confirmed with RUDN University.
+    Current reference rules are for academic year 2026/27.
+  </p>
+</section>
 
 <!-- STEP 6: PERSONAL FINANCIAL SITUATION -->
 <section id="step7" class="step">
@@ -761,7 +785,34 @@ async function calculateStudyBudget(payload) {
   }
 
   return result.budget;
-} // TEMPORARY SUPABASE CONNECTION TEST
+}
+  async function getAccommodationOptions(payload) {
+  const response = await fetch(
+    `${SUPABASE_URL}/functions/v1/calculate-study-budget`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+      },
+      body: JSON.stringify({
+        action: "get_accommodation_options",
+        ...payload
+      })
+    }
+  );
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(
+      "HTTP " + response.status + ": " + JSON.stringify(result)
+    );
+  }
+
+  return result.accommodation;
+}// TEMPORARY SUPABASE CONNECTION TEST
 document.getElementById("testSupabase").addEventListener("click", async function () {
   const resultBox = document.getElementById("supabaseTestResult");
 
