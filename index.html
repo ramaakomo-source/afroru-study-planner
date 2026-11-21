@@ -1349,12 +1349,12 @@ const documentNames = {
 };
 
 const documentUnits = {
-  13: "document(s)",
-  14: "document(s)",
-  16: "page(s)",
-  17: "page(s)",
-  18: "document(s)",
-  19: "translation(s)"
+  13: "document",
+  14: "document",
+  16: "page",
+  17: "page",
+  18: "document",
+  19: "translation"
 };
 
 document.getElementById("budgetWarnings").innerHTML = `
@@ -1379,7 +1379,7 @@ document.getElementById("budgetWarnings").innerHTML = `
               <div>
                 <strong>${documentNames[item.id] || "Other document expense"}</strong>
                 <p>
-                  ${item.quantity} ${documentUnits[item.id] || "unit(s)"}
+                  ${item.quantity} ${documentUnits[item.id] || "unit"}${item.quantity === 1 ? "" : "s"}
                   × ${money(item.unit_expected, "TZS")}
                 </p>
               </div>
