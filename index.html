@@ -636,7 +636,10 @@ if (departureCity !== "1") {
     alert("Please confirm whether your university place is state-funded or contract-funded before continuing.");
     return;
   }
-  
+ if (degreeLevel !== "Master's") {
+  alert("The budget calculator currently supports Master's students only. Bachelor's and PhD calculations will be added later.");
+  return;
+} 
 selectedDepartureCountry = departureCountry;
 selectedDepartureCity = departureCity;
 selectedResidenceCountry = residenceCountry;
