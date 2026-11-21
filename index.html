@@ -633,7 +633,16 @@ document.getElementById("continue4").addEventListener("click", () => {
     alert("Please confirm whether your university place is state-funded or contract-funded before continuing.");
     return;
   }
-  selectedFundingBasis = fundingBasis;
+  
+selectedDepartureCountry = departureCountry;
+selectedDepartureCity = departureCity;
+selectedResidenceCountry = residenceCountry;
+selectedPassportStatus = passportStatus;
+selectedDegreeLevel = degreeLevel;
+selectedIntakeMonth = intakeMonth;
+selectedIntakeYear = intakeYear;
+selectedFundingBasis = fundingBasis;
+
   loadCoverage();
   showStep(5);
 });
