@@ -914,14 +914,22 @@ document.getElementById("back5").addEventListener("click", () => {
   showStep(4);
 });
 
+
 const coverageItems = [
-  { id: "tuition", name: "Tuition fees" },
-  { id: "stipend", name: "Monthly scholarship stipend" },
-  { id: "accommodation", name: "Accommodation" },
-  { id: "travel", name: "International travel" },
-  { id: "medical", name: "Medical insurance and examination" },
-  { id: "food", name: "Food expenses" },
-  { id: "transport", name: "Local transport" }
+  { id: 1, name: "Passport" },
+  { id: 2, name: "Document preparation" },
+  { id: 3, name: "Translation and certification" },
+  { id: 4, name: "Medical expenses" },
+  { id: 5, name: "Visa expenses" },
+  { id: 6, name: "Domestic travel" },
+  { id: 7, name: "International travel" },
+  { id: 8, name: "Accommodation and deposit" },
+  { id: 9, name: "Food" },
+  { id: 10, name: "Local transport" },
+  { id: 11, name: "Initial settlement" },
+  { id: 12, name: "University charges" },
+  { id: 13, name: "Emergency reserve" },
+  { id: 14, name: "Other expenses" }
 ];
 
 const coverageStatuses = [
@@ -934,40 +942,24 @@ const coverageStatuses = [
 let selectedCoverage = {};
 
 function getCoverageSuggestion(route, itemId) {
-  if (itemId === "tuition") {
-    if (route === "RU_GOV_QUOTA" || route === "OPEN_DOORS") {
-      return "covered";
-    }
-    return "not_covered";
-  }
+  const governmentUnknown = [1, 2, 3, 4, 5, 8, 12, 13, 14];
+  const governmentNotCovered = [6, 7, 9, 10, 11];
 
-  if (itemId === "stipend") {
-    if (route === "RU_GOV_QUOTA") return "covered";
-    if (route === "SELF_FUNDED") return "not_covered";
-    return "unknown";
-  }
-
-  if (itemId === "accommodation") {
-    if (route === "OPEN_DOORS" || route === "SELF_FUNDED") {
-      return "not_covered";
-    }
-    return "unknown";
-  }
-
-  if (route === "SELF_FUNDED") return "not_covered";
-
-  if (route === "OPEN_DOORS") {
-    if (["travel", "food", "transport"].includes(itemId)) {
-      return "not_covered";
-    }
-    return "unknown";
-  }
+  const openDoorsUnknown = [1, 2, 3, 5, 12, 13, 14];
+  const openDoorsNotCovered = [4, 6, 7, 8, 9, 10, 11];
 
   if (route === "RU_GOV_QUOTA") {
-    if (["travel", "food", "transport"].includes(itemId)) {
-      return "not_covered";
-    }
-    return "unknown";
+    if (governmentNotCovered.includes(itemId)) return "not_covered";
+    if (governmentUnknown.includes(itemId)) return "unknown";
+  }
+
+  if (route === "OPEN_DOORS") {
+    if (openDoorsNotCovered.includes(itemId)) return "not_covered";
+    if (openDoorsUnknown.includes(itemId)) return "unknown";
+  }
+
+  if (route === "SELF_FUNDED") {
+    return "not_covered";
   }
 
   return "unknown";
