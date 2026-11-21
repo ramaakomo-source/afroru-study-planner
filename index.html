@@ -1137,11 +1137,58 @@ document.getElementById("budgetBreakdown").innerHTML = `
 `;
 
 
-    document.getElementById("fundingSummary").textContent =
-      JSON.stringify(fundingGap, null, 2);
+    
+const availableFunding = fundingGap.total_available_funding_tzs;
 
-    document.getElementById("fundingGapSummary").textContent =
-      JSON.stringify(fundingGap, null, 2);
+document.getElementById("fundingSummary").innerHTML = `
+  <div class="report-card">
+    <h3>Your Available Funding</h3>
+
+    <div class="expense-row">
+      <span>Personal savings</span>
+      <strong>${money(fundingGap.funding_sources.personal_savings.value_tzs)}</strong>
+    </div>
+
+    <div class="expense-row">
+      <span>Confirmed family contribution</span>
+      <strong>${money(fundingGap.funding_sources.confirmed_family_contribution.value_tzs)}</strong>
+    </div>
+
+    <div class="budget-highlight">
+      <span>Total available funding</span>
+      <strong>${money(availableFunding)}</strong>
+    </div>
+  </div>
+`;
+
+
+    
+document.getElementById("fundingGapSummary").innerHTML = `
+  <div class="report-card">
+    <h3>Your Remaining Funding Gap</h3>
+
+    <div class="budget-highlight">
+      <span>Amount still needed</span>
+      <strong>${money(fundingGap.funding_gap.tzs)}</strong>
+    </div>
+
+    <div class="expense-row">
+      <span>Equivalent in Russian rubles</span>
+      <strong>${money(fundingGap.funding_gap.rub, "RUB")}</strong>
+    </div>
+
+    <div class="budget-highlight">
+      <span>Monthly savings target</span>
+      <strong>${money(fundingGap.monthly_savings_target.tzs)}</strong>
+    </div>
+
+    <p class="report-note">
+      Based on ${fundingGap.months_remaining} months remaining.
+      This is a planning target, not a guarantee of funding.
+    </p>
+  </div>
+`;
+
 
     document.getElementById("budgetWarnings").textContent =
       JSON.stringify(budget.warnings, null, 2);
