@@ -731,7 +731,7 @@ document.getElementById("continue5").addEventListener("click", async () => {
   try {
     const accommodation = await getAccommodationOptions({
       p_university_id: Number(selectedUniversity),
-      p_student_level: document.getElementById("degreeLevel").value,
+      p_student_level: "Master",
       p_funding_basis: selectedFundingBasis
     });
 
