@@ -118,6 +118,130 @@
       font-size: 13px;
       line-height: 1.5;
     }
+    
+/* AfroRus Study Planner - Financial Report */
+
+.report-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.report-card h3 {
+  color: #173b32;
+  font-size: 21px;
+  margin: 0 0 18px;
+}
+
+.report-note {
+  color: #667085;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
+.budget-highlight {
+  background: #edf7f1;
+  border-radius: 10px;
+  padding: 18px;
+  margin: 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.budget-highlight span {
+  color: #47645a;
+  font-size: 14px;
+}
+
+.budget-highlight strong {
+  color: #176b45;
+  font-size: 26px;
+  overflow-wrap: anywhere;
+}
+
+.budget-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.budget-range div {
+  background: #f6f7f8;
+  padding: 14px;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.budget-range span {
+  color: #667085;
+  font-size: 13px;
+}
+
+.budget-range strong {
+  color: #263b33;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.expense-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.expense-row:last-child {
+  border-bottom: none;
+}
+
+.expense-row strong {
+  color: #173b32;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.expense-row p {
+  color: #667085;
+  font-size: 12px;
+  margin: 5px 0 0;
+}
+
+.report-card ul {
+  padding-left: 20px;
+  color: #76551a;
+  line-height: 1.8;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .report-card {
+    padding: 16px;
+  }
+
+  .budget-highlight strong {
+    font-size: 22px;
+  }
+
+  .budget-range {
+    grid-template-columns: 1fr;
+  }
+
+  .expense-row {
+    align-items: flex-start;
+    font-size: 13px;
+  }
+}
+
   </style>
 </head>
 
