@@ -1006,6 +1006,46 @@ function loadCoverage() {
   });
 }
 
+function loadScholarshipBenefits() {
+  const container = document.getElementById("scholarshipBenefits");
+  container.innerHTML = "";
+
+  if (selectedRoute === "RU_GOV_QUOTA") {
+    container.innerHTML = `
+      <h3>Additional Government Scholarship Benefits</h3>
+
+      <div class="report-card">
+        <h4>Tuition support</h4>
+        <p><strong>Recorded benefit:</strong> Covered</p>
+        <p>Applies to candidates officially selected and admitted under the Russian Government Scholarship quota.</p>
+        <p class="report-note">The monetary value has not been confirmed. No deduction is made from your budget.</p>
+      </div>
+
+      <div class="report-card">
+        <h4>Monthly state academic scholarship</h4>
+        <p><strong>Recorded benefit:</strong> Covered</p>
+        <p>A monthly state academic scholarship is recorded as a benefit.</p>
+        <p class="report-note">Confirm the amount and payment arrangements with the university. This benefit is not deducted from expenses.</p>
+      </div>
+
+      <div class="report-card">
+        <h4>University dormitory placement</h4>
+        <p><strong>Recorded benefit:</strong> Covered</p>
+        <p>Placement is subject to the university's eligibility and allocation rules.</p>
+        <p class="report-note">A dormitory place does not mean accommodation is free. Applicable fees must still be confirmed.</p>
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <h3>Additional Scholarship Benefits</h3>
+      <p class="report-note">
+        No additional benefit records are currently configured for this funding route.
+        Confirm any other benefits with the scholarship provider or university.
+      </p>
+    `;
+  }
+}
+
 
 document.getElementById("continue5").addEventListener("click", async () => {
   const summary = document.getElementById("coverageSummary");
