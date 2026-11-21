@@ -464,17 +464,18 @@ function isBudgetCalculationSupported(universityId) {
   });
 
   document.getElementById("continue2").addEventListener("click", () => {
-    if (!selectedUniversity) {
-      alert("Please select a university first.");
-      return;
-      if (!isBudgetCalculationSupported(selectedUniversity)) {
-  alert("The budget calculator currently supports RUDN University only. Other universities are being added.");
-}
-    }
+  if (!selectedUniversity) {
+    alert("Please select a university first.");
+    return;
+  }
 
-    loadProgrammes();
-    showStep(3);
-  });
+  if (!isBudgetCalculationSupported(selectedUniversity)) {
+    alert("The budget calculator currently supports RUDN University only. Other universities are being added.");
+  }
+
+  loadProgrammes();
+  showStep(3);
+});
 
   document.getElementById("back3").addEventListener("click", () => {
     showStep(2);
