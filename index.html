@@ -823,14 +823,16 @@ document.getElementById("continue5").addEventListener("click", async () => {
 document.getElementById("back6").addEventListener("click", () => {
   showStep(5);
 });
+
 document.getElementById("continue6").addEventListener("click", () => {
   if (!selectedAccommodationId) {
     alert("Please select an accommodation option before continuing.");
     return;
   }
 
- showStep(8);
+  showStep(7);
 });
+
 document.getElementById("back7").addEventListener("click", () => {
   showStep(6);
 });
@@ -847,9 +849,13 @@ document.getElementById("continue7").addEventListener("click", () => {
     return;
   }
 
-  if (Number(savings) < 0 || Number(family) < 0 ||
-      !Number.isInteger(Number(months)) ||
-      Number(months) < 1 || Number(months) > 120) {
+  if (
+    Number(savings) < 0 ||
+    Number(family) < 0 ||
+    !Number.isInteger(Number(months)) ||
+    Number(months) < 1 ||
+    Number(months) > 120
+  ) {
     alert("Please enter valid amounts and a period of 1 to 120 months.");
     return;
   }
@@ -861,15 +867,13 @@ document.getElementById("continue7").addEventListener("click", () => {
     " | Confirmed family contribution: " + family + " " + familyCurrency +
     " | Months remaining: " + months;
 
+  showStep(8);
+});
+
+document.getElementById("back8").addEventListener("click", () => {
   showStep(7);
 });
 
-document.getElementById("back7").addEventListener("click", () => {
-  showStep(6);
-});
-  document.getElementById("back8").addEventListener("click", () => {
-  showStep(7);
-});
   // SUPABASE CONNECTION
 const SUPABASE_URL = "https://olefrlrgpucztgncheds.supabase.co";
 
