@@ -547,6 +547,7 @@ document.getElementById("back4").addEventListener("click", () => {
   showStep(3);
 });
 
+
 document.getElementById("continue4").addEventListener("click", () => {
   const departureCountry = document.getElementById("departureCountry").value;
   const departureCity = document.getElementById("departureCity").value;
@@ -555,16 +556,22 @@ document.getElementById("continue4").addEventListener("click", () => {
   const intakeMonth = document.getElementById("intakeMonth").value;
   const intakeYear = document.getElementById("intakeYear").value;
   const degreeLevel = document.getElementById("degreeLevel").value;
+  const fundingBasis = document.getElementById("fundingBasis").value;
 
-  if (!passportStatus || !intakeMonth || !intakeYear || !degreeLevel) {
-    alert("Please complete all required fields.");
+  if (!passportStatus || !intakeMonth || !intakeYear || !degreeLevel || !fundingBasis) {
+    alert("Please complete all required fields, including your funding basis.");
     return;
   }
 
-  
+  if (fundingBasis === "unknown") {
+    alert("Please confirm whether your university place is state-funded or contract-funded before continuing.");
+    return;
+  }
+
   loadCoverage();
-showStep(5);
+  showStep(5);
 });
+
 
 document.getElementById("back5").addEventListener("click", () => {
   showStep(4);
