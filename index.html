@@ -1059,8 +1059,44 @@ document.getElementById("continue7").addEventListener("click", async () => {
       p_rate_date: "2026-11-20"
     });
 
-    document.getElementById("budgetSummary").textContent =
-      JSON.stringify(budget, null, 2);
+    
+const money = (amount, currency = "TZS") =>
+  new Intl.NumberFormat("en-TZ", {
+    style: "currency",
+    currency: currency,
+    maximumFractionDigits: 0
+  }).format(amount || 0);
+
+document.getElementById("budgetSummary").innerHTML = `
+  <div class="report-card">
+    <h3>Your First-Year Study Budget</h3>
+    <p class="report-note">
+      Estimated planning budget for your selected university and study route.
+    </p>
+
+    <div class="budget-highlight">
+      <span>Expected first-year budget</span>
+      <strong>${money(budget.tzs_totals.expected)}</strong>
+    </div>
+
+    <div class="budget-range">
+      <div>
+        <span>Low estimate</span>
+        <strong>${money(budget.tzs_totals.low)}</strong>
+      </div>
+      <div>
+        <span>High estimate</span>
+        <strong>${money(budget.tzs_totals.high)}</strong>
+      </div>
+    </div>
+
+    <p class="report-note">
+      Exchange rates dated ${budget.exchange_rate_date}.
+      These are planning estimates, not guaranteed final costs.
+    </p>
+  </div>
+`;
+
 
     document.getElementById("budgetBreakdown").textContent =
       JSON.stringify(budget.stage_breakdown, null, 2);
