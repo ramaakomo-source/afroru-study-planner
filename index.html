@@ -1098,8 +1098,44 @@ document.getElementById("budgetSummary").innerHTML = `
 `;
 
 
-    document.getElementById("budgetBreakdown").textContent =
-      JSON.stringify(budget.stage_breakdown, null, 2);
+    
+const stages = budget.stage_breakdown;
+
+document.getElementById("budgetBreakdown").innerHTML = `
+  <div class="report-card">
+    <h3>Where Your Money Will Go</h3>
+
+    <div class="expense-row">
+      <div>
+        <strong>Pre-departure expenses</strong>
+        <p>Documents and preparation in Tanzania</p>
+      </div>
+      <strong>${money(stages.pre_departure_tzs.expected, "TZS")}</strong>
+    </div>
+
+    <div class="expense-row">
+      <div>
+        <strong>Arrival expenses</strong>
+        <p>Mandatory arrival procedures in Russia</p>
+      </div>
+      <strong>${money(stages.arrival_rub.expected, "RUB")}</strong>
+    </div>
+
+    <div class="expense-row">
+      <div>
+        <strong>First-year living expenses</strong>
+        <p>Accommodation, food and local transport</p>
+      </div>
+      <strong>${money(stages.living_rub.expected, "RUB")}</strong>
+    </div>
+
+    <p class="report-note">
+      Expenses are shown in their original currencies.
+      Currency conversions are provided in the overall budget summary.
+    </p>
+  </div>
+`;
+
 
     document.getElementById("fundingSummary").textContent =
       JSON.stringify(fundingGap, null, 2);
