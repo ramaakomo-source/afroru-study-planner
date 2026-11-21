@@ -703,7 +703,7 @@ function loadCoverage() {
 }
 
 
-document.getElementById("continue5").addEventListener("click", () => {
+document.getElementById("continue5").addEventListener("click", async () => {
   const summary = document.getElementById("coverageSummary");
   summary.innerHTML = "";
 
@@ -718,10 +718,87 @@ document.getElementById("continue5").addEventListener("click", () => {
   });
 
   showStep(6);
+
+  const eligibility = document.getElementById("accommodationEligibility");
+  const optionsContainer = document.getElementById("accommodationOptions");
+  const accommodationSummary = document.getElementById("accommodationSummary");
+
+  eligibility.textContent = "Loading accommodation information...";
+  optionsContainer.innerHTML = "";
+  accommodationSummary.innerHTML = "";
+  selectedAccommodationId = null;
+
+  try {
+    const accommodation = await getAccommodationOptions({
+      p_university_id: Number(selectedUniversity),
+      p_student_level: document.getElementById("degreeLevel").value,
+      p_funding_basis: selectedFundingBasis
+    });
+
+    eligibility.textContent =
+      accommodation.eligibility_conditions;
+
+    if (accommodation.option_count === 0) {
+      optionsContainer.textContent =
+        "No university accommodation options are currently available under this funding basis.";
+      return;
+    }
+
+    accommodation.options.forEach(option => {
+      const label = document.createElement("label");
+      label.className = "option";
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "accommodationOption";
+      radio.value = option.record_id;
+
+      radio.addEventListener("change", () => {
+        selectedAccommodationId = Number(option.record_id);
+        accommodationSummary.textContent =
+          "Selected: " + option.accommodation_type +
+          " — " + option.monthly_cost_rub.toLocaleString() +
+          " RUB per month.";
+      });
+
+      label.appendChild(radio);
+      label.appendChild(
+        document.createTextNode(
+          " " + option.accommodation_type +
+          " — " + option.monthly_cost_rub.toLocaleString() +
+          " RUB/month"
+        )
+      );
+
+      const details = document.createElement("small");
+      details.textContent =
+        " First year: " +
+        option.first_year_cost_rub.toLocaleString() +
+        " RUB. " + option.conditions;
+
+      label.appendChild(details);
+      optionsContainer.appendChild(label);
+    });
+
+  } catch (error) {
+    eligibility.textContent =
+      "We could not retrieve accommodation information: " + error.message;
+  }
 });
 
-document.getElementById("back7").addEventListener("click", () => {
+document.getElementById("back6").addEventListener("click", () => {
   showStep(5);
+});
+document.getElementById("continue6").addEventListener("click", () => {
+  if (!selectedAccommodationId) {
+    alert("Please select an accommodation option before continuing.");
+    return;
+  }
+
+  showStep(7);
+});
+document.getElementById("back7").addEventListener("click", () => {
+  showStep(6);
 });
 
 document.getElementById("continue7").addEventListener("click", () => {
