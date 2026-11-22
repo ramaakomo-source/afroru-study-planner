@@ -1295,9 +1295,11 @@ document.getElementById("continue7").addEventListener("click", async () => {
   }
 
   if (Number(selectedUniversity) !== 3) {
-    alert("The live budget calculator currently supports RUDN University only.");
-    return;
-  }
+  alert(
+    "Your selected university is available for planning, but its budget data has not yet been configured. Please select RUDN University to generate a live budget report."
+  );
+  return;
+}
 
   if (!selectedAccommodationId) {
     alert("Please select an accommodation option first.");
