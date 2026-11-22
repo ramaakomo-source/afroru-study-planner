@@ -868,9 +868,11 @@ function isBudgetCalculationSupported(universityId) {
     return;
   }
 
-  if (!isBudgetCalculationSupported(selectedUniversity)) {
-    alert("The budget calculator currently supports RUDN University only. Other universities are being added.");
-  }
+ if (!isBudgetCalculationSupported(selectedUniversity)) {
+  alert(
+    "You can continue planning with this university. However, its programme and budget information is still being prepared. A verified budget report is not yet available."
+  );
+} 
 
   loadProgrammes();
   showStep(3);
