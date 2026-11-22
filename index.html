@@ -1542,7 +1542,9 @@ document.getElementById("budgetWarnings").innerHTML = `
   }
 });
 
-
+document.getElementById("printReport").addEventListener("click", () => {
+  window.print();
+});
 document.getElementById("back8").addEventListener("click", () => {
   showStep(7);
 });
