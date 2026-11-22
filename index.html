@@ -1306,12 +1306,15 @@ document.getElementById("continue7").addEventListener("click", async () => {
   const loading = document.getElementById("budgetLoading");
   const errorBox = document.getElementById("budgetError");
   const report = document.getElementById("budgetReport");
-document.getElementById("pdfGeneratedDate").textContent =
-  new Date().toLocaleDateString("en-GB", {
+const pdfDate = document.getElementById("pdfGeneratedDate");
+
+if (pdfDate) {
+  pdfDate.textContent = new Date().toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "long",
     year: "numeric"
   });
+}
   
   loading.textContent = "Calculating your study budget. Please wait...";
   errorBox.textContent = "";
