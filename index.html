@@ -393,26 +393,39 @@
     </div>
   </section>
 
-  <!-- STEP 3: PROGRAMME -->
-  <section id="step3" class="step">
-    <h2>Step 3: Programme selection</h2>
+  <!-- STEP 3: DEGREE LEVEL AND PROGRAMME -->
+<section id="step3" class="step">
+  <h2>Step 3: Degree level</h2>
+  <p class="subtitle">
+    First, select the level of study you intend to pursue.
+  </p>
+
+  <div id="degreeOptions">
+    <button class="option" data-value="Bachelor's">Bachelor's</button>
+    <button class="option" data-value="Master's">Master's</button>
+    <button class="option" data-value="PhD">PhD</button>
+  </div>
+
+  <div id="programmeSection" style="display:none;">
+    <h2>Programme selection</h2>
     <p class="subtitle">
-      Select the programme you intend to study.
+      Select a programme for your chosen university and degree level.
     </p>
 
     <div id="programmeOptions"></div>
 
-    <div class="actions">
-      <button class="back" id="back3">Back</button>
-      <button class="continue" id="continue3">Continue</button>
-    </div>
-
     <p class="note">
-      Programme information is preliminary. Availability, language of
-      instruction and scholarship eligibility must be confirmed with
-      the university before making financial decisions.
+      If your programme is not listed, you may continue without selecting one.
+      Programme availability, language of instruction and scholarship
+      eligibility must be confirmed with the university.
     </p>
-  </section>
+  </div>
+
+  <div class="actions">
+    <button class="back" id="back3">Back</button>
+    <button class="continue" id="continue3" disabled>Continue</button>
+  </div>
+</section>
 
  
   <!-- STEP 4: APPLICANT AND TRAVEL DETAILS -->
