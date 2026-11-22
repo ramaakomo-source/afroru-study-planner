@@ -881,13 +881,16 @@ function isBudgetCalculationSupported(universityId) {
     return;
   }
 
- if (!isBudgetCalculationSupported(selectedUniversity)) {
-  alert(
-    "You can continue planning with this university. However, its programme and budget information is still being prepared. A verified budget report is not yet available."
-  );
-} 
+  selectedDegreeLevel = "";
+  selectedProgramme = "";
 
-  loadProgrammes();
+  document.querySelectorAll("#degreeOptions .option").forEach(button => {
+    button.classList.remove("selected");
+  });
+
+  document.getElementById("programmeSection").style.display = "none";
+  document.getElementById("continue3").disabled = true;
+
   showStep(3);
 });
 
