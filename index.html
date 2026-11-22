@@ -1312,6 +1312,28 @@ document.getElementById("pdfGeneratedDate").textContent =
     month: "long",
     year: "numeric"
   });
+  const universityNames = {
+  1: "Kazan Federal University",
+  2: "Saint Petersburg State University",
+  3: "RUDN University",
+  4: "Gubkin University",
+  5: "Lomonosov Moscow State University"
+};
+
+const fundingRouteNames = {
+  RU_GOV_QUOTA: "Russian Government Scholarship",
+  OPEN_DOORS: "Open Doors Scholarship",
+  SELF_FUNDED: "Self-funded Admission"
+};
+
+document.getElementById("pdfUniversity").textContent =
+  universityNames[Number(selectedUniversity)] || "Not confirmed";
+
+document.getElementById("pdfIntake").textContent =
+  `${selectedIntakeMonth} ${selectedIntakeYear}`;
+
+document.getElementById("pdfFundingRoute").textContent =
+  fundingRouteNames[selectedFundingRoute] || "Not confirmed";
   loading.textContent = "Calculating your study budget. Please wait...";
   errorBox.textContent = "";
   report.style.display = "none";
