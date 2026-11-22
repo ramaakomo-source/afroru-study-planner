@@ -994,8 +994,13 @@ function loadProgrammes() {
 
  
 document.getElementById("continue3").addEventListener("click", () => {
+  if (!selectedDegreeLevel) {
+    alert("Please select your degree level first.");
+    return;
+  }
+
   if (!selectedProgramme) {
-    alert("Please select a programme first.");
+    alert("Please select a programme or choose 'Continue with programme to be confirmed'.");
     return;
   }
 
