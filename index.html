@@ -1354,8 +1354,8 @@ document.getElementById("privateAccommodation").addEventListener("click", () => 
     "Selected: I will arrange my own accommodation.";
 });
 document.getElementById("continue6").addEventListener("click", () => {
-  if (!selectedAccommodationId) {
-    alert("Please select an accommodation option before continuing.");
+  if (!selectedAccommodationId && !selectedPrivateAccommodation) {
+    alert("Please select a university dormitory or choose to arrange your own accommodation.");
     return;
   }
 
