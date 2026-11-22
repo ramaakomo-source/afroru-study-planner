@@ -856,7 +856,22 @@ function isBudgetCalculationSupported(universityId) {
   setupSelection("step1", value => {
     selectedRoute = value;
   });
+document.querySelectorAll("#degreeOptions .option").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("#degreeOptions .option").forEach(option => {
+      option.classList.remove("selected");
+    });
 
+    button.classList.add("selected");
+    selectedDegreeLevel = button.dataset.value;
+
+    document.getElementById("programmeSection").style.display = "block";
+
+    loadProgrammes();
+
+    document.getElementById("continue3").disabled = false;
+  });
+});
   setupSelection("step2", value => {
     selectedUniversity = value;
     selectedProgramme = "";
