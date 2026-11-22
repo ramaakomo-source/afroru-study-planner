@@ -1346,7 +1346,13 @@ document.getElementById("continue5").addEventListener("click", async () => {
 document.getElementById("back6").addEventListener("click", () => {
   showStep(5);
 });
+document.getElementById("privateAccommodation").addEventListener("click", () => {
+  selectedPrivateAccommodation = true;
+  selectedAccommodationId = null;
 
+  document.getElementById("accommodationSummary").textContent =
+    "Selected: I will arrange my own accommodation.";
+});
 document.getElementById("continue6").addEventListener("click", () => {
   if (!selectedAccommodationId) {
     alert("Please select an accommodation option before continuing.");
