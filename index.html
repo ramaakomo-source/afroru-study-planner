@@ -1397,10 +1397,10 @@ document.getElementById("continue7").addEventListener("click", async () => {
   return;
 }
 
-  if (!selectedAccommodationId) {
-    alert("Please select an accommodation option first.");
-    return;
-  }
+ if (!selectedAccommodationId && !selectedPrivateAccommodation) {
+  alert("Please select a university dormitory or choose to arrange your own accommodation.");
+  return;
+}
 
   const loading = document.getElementById("budgetLoading");
   const errorBox = document.getElementById("budgetError");
