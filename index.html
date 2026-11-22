@@ -907,6 +907,7 @@ document.querySelectorAll("#degreeOptions .option").forEach(button => {
     showStep(2);
   });
 
+
 function loadProgrammes() {
   const container = document.getElementById("programmeOptions");
   const university = universities[selectedUniversity];
@@ -914,7 +915,16 @@ function loadProgrammes() {
   container.innerHTML = "";
   selectedProgramme = "";
 
-  // Bachelor's and PhD programme lists are not configured yet.
+  function selectProgramme(button, value) {
+    container.querySelectorAll(".option").forEach(option => {
+      option.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+    selectedProgramme = value;
+  }
+
+  // Bachelor's and PhD: programme information is not configured yet.
   if (selectedDegreeLevel !== "Master's") {
     container.innerHTML = `
       <div class="message">
@@ -923,67 +933,63 @@ function loadProgrammes() {
         Planner. Please check the university's official programme
         catalogue before proceeding.
       </div>
-      <button class="option" data-value="NOT_YET_SELECTED">
-        Continue to Budget Planning
-      </button>
     `;
 
-    container.querySelector(".option").addEventListener("click", event => {
-      selectedProgramme = event.currentTarget.dataset.value;
+    const button = document.createElement("button");
+    button.className = "option";
+    button.textContent = "Continue with programme to be confirmed";
+    button.dataset.value = "NOT_YET_SELECTED";
 
-      container.querySelectorAll(".option").forEach(option => {
-        option.classList.remove("selected");
-      });
-
-      event.currentTarget.classList.add("selected");
+    button.addEventListener("click", () => {
+      selectProgramme(button, "NOT_YET_SELECTED");
     });
 
+    container.appendChild(button);
     return;
   }
 
-  // Master's programme information.
-  if (university.programmes.length === 0) {
+  // Display verified/listed Master's programmes, if available.
+  if (university.programmes.length > 0) {
+    university.programmes.forEach(programme => {
+      const button = document.createElement("button");
+      button.className = "option";
+      button.textContent = programme;
+      button.dataset.value = programme;
+
+      button.addEventListener("click", () => {
+        selectProgramme(button, programme);
+      });
+
+      container.appendChild(button);
+    });
+  } else {
     container.innerHTML = `
       <div class="message">
         Master's programme information for ${university.name} is still
         being verified. Please check the university's official programme
         catalogue before proceeding.
       </div>
-      <button class="option" data-value="NOT_YET_SELECTED">
-        Continue to Budget Planning
-      </button>
     `;
-
-    container.querySelector(".option").addEventListener("click", event => {
-      selectedProgramme = event.currentTarget.dataset.value;
-
-      container.querySelectorAll(".option").forEach(option => {
-        option.classList.remove("selected");
-      });
-
-      event.currentTarget.classList.add("selected");
-    });
-
-    return;
   }
 
-  university.programmes.forEach(programme => {
-    const button = document.createElement("button");
-    button.className = "option";
-    button.textContent = programme;
-    button.dataset.value = programme;
+  // Always offer another programme option to Master's applicants.
+  const unlistedMessage = document.createElement("div");
+  unlistedMessage.className = "message";
+  unlistedMessage.textContent =
+    "Can't find your Master's programme? You can continue with an unlisted programme.";
 
-    button.addEventListener("click", () => {
-      container.querySelectorAll(".option").forEach(option => {
-        option.classList.remove("selected");
-      });
+  container.appendChild(unlistedMessage);
 
-      button.classList.add("selected");
-      selectedProgramme = programme;
-    });
+  const otherButton = document.createElement("button");
+  otherButton.className = "option";
+  otherButton.textContent = "My programme is not listed — Continue";
+  otherButton.dataset.value = "OTHER_UNLISTED_PROGRAMME";
 
-    container.appendChild(button);
+  otherButton.addEventListener("click", () => {
+    selectProgramme(otherButton, "OTHER_UNLISTED_PROGRAMME");
   });
+
+  container.appendChild(otherButton);
 }
 
  
