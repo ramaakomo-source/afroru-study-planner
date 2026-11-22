@@ -299,6 +299,44 @@
   font-size: 12px;
   margin-top: 10px !important;
 }
+    @media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #budgetReport,
+  #budgetReport * {
+    visibility: visible;
+  }
+
+  #budgetReport {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white;
+  }
+
+  #printReport,
+  #testSupabase,
+  #supabaseTestResult {
+    display: none !important;
+  }
+
+  .report-card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .pdf-header,
+  .pdf-footer {
+    break-inside: avoid;
+  }
+
+  @page {
+    margin: 15mm;
+  }
+}
   </style>
 </head>
 
