@@ -490,13 +490,7 @@
       <option>2029</option>
     </select>
 
-    <label for="degreeLevel">Degree level</label>
-    <select id="degreeLevel" class="option">
-      <option value="">Select degree level</option>
-      <option>Bachelor's</option>
-      <option selected>Master's</option>
-      <option>PhD</option>
-    </select><label for="fundingBasis">How will your university place be funded?</label>
+    <label for="fundingBasis">How will your university place be funded?</label>
 <select id="fundingBasis" class="option">
   <option value="">Select funding basis</option>
   <option value="state_funded">State-funded place (government quota)</option>
@@ -1020,7 +1014,7 @@ document.getElementById("continue4").addEventListener("click", () => {
   const passportStatus = document.getElementById("passportStatus").value;
   const intakeMonth = document.getElementById("intakeMonth").value;
   const intakeYear = document.getElementById("intakeYear").value;
-  const degreeLevel = document.getElementById("degreeLevel").value;
+  const degreeLevel = selectedDegreeLevel;
   const fundingBasis = document.getElementById("fundingBasis").value;
 if (departureCity !== "1") {
   alert("Currently, the calculator supports departures from Dar es Salaam only. Other departure cities will be added later.");
