@@ -1552,7 +1552,7 @@ const expenseNames = {
 const livingRows = livingItems.map(item => `
   <div class="expense-row">
     <div>
-      <strong>${expenseNames[item.expense_category_id] || "Other living expense"}</strong>
+      <strong>${expenseNames[item.category_id] || expenseNames[item.expense_category_id] || "Other living expense"}</strong>
       <p>${item.accommodation_type || item.conditions || ""}</p>
       <small>${item.data_status === "verified" ? "Verified reference" : "Planning estimate"}</small>
     </div>
