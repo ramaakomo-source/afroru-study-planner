@@ -1535,7 +1535,40 @@ document.getElementById("budgetSummary").innerHTML = `
 
 
     
+
 const stages = budget.stage_breakdown;
+
+const livingItems = budget.first_year_living?.items || [];
+const arrivalItems = budget.arrival?.items || [];
+const airfare = budget.airfare || null;
+
+const expenseNames = {
+  7: "Local transport",
+  8: "Accommodation",
+  9: "Food",
+  2: "Fingerprint registration and photographing"
+};
+
+const livingRows = livingItems.map(item => `
+  <div class="expense-row">
+    <div>
+      <strong>${expenseNames[item.expense_category_id] || "Other living expense"}</strong>
+      <p>${item.accommodation_type || item.conditions || ""}</p>
+      <small>${item.data_status === "verified" ? "Verified reference" : "Planning estimate"}</small>
+    </div>
+    <strong>${money(item.first_year_expected, item.currency)}</strong>
+  </div>
+`).join("");
+
+const arrivalRows = arrivalItems.map(item => `
+  <div class="expense-row">
+    <div>
+      <strong>${expenseNames[item.category_id] || "Arrival expense"}</strong>
+      <p>${item.conditions || "Arrival requirement"}</p>
+    </div>
+    <strong>${money(item.cost_expected, item.currency)}</strong>
+  </div>
+`).join("");
 
 document.getElementById("budgetBreakdown").innerHTML = `
   <div class="report-card">
@@ -1549,33 +1582,33 @@ document.getElementById("budgetBreakdown").innerHTML = `
       <strong>${money(stages.pre_departure_tzs.expected, "TZS")}</strong>
     </div>
 
-<div class="expense-row">
-  <div>
-    <strong>International airfare (one-way)</strong>
-    <p>Flydubai planning estimate; shown in US dollars</p>
-  </div>
-  <strong>${money(stages.airfare_usd.expected, "USD")}</strong>
-</div>
-
-    <div class="expense-row">
-      <div>
-        <strong>Arrival expenses</strong>
-        <p>Mandatory arrival procedures in Russia</p>
+    ${airfare ? `
+      <div class="expense-row">
+        <div>
+          <strong>International airfare</strong>
+          <p>One-way planning estimate</p>
+        </div>
+        <strong>${money(airfare.expected, airfare.currency)}</strong>
       </div>
-      <strong>${money(stages.arrival_rub.expected, "RUB")}</strong>
-    </div>
-
-    <div class="expense-row">
-      <div>
-        <strong>First-year living expenses</strong>
-        <p>Accommodation, food and local transport</p>
+    ` : `
+      <div class="expense-row">
+        <div>
+          <strong>International airfare</strong>
+          <p>No matching destination-specific estimate available. Excluded.</p>
+        </div>
+        <strong>Not included</strong>
       </div>
-      <strong>${money(stages.living_rub.expected, "RUB")}</strong>
-    </div>
+    `}
+
+    <h4>Arrival expenses</h4>
+    ${arrivalRows || "<p>No configured arrival expenses.</p>"}
+
+    <h4>First-year living expenses</h4>
+    ${livingRows || "<p>No individual living expense records available.</p>"}
 
     <p class="report-note">
-      Expenses are shown in their original currencies.
-      Currency conversions are provided in the overall budget summary.
+      Living expenses are annualised. Original currencies are displayed.
+      Estimates and verified records are identified separately.
     </p>
   </div>
 `;
