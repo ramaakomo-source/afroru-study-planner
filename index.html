@@ -1467,7 +1467,11 @@ if (pdfFundingRoute) {
   "PhD": "PhD"
 })[selectedDegreeLevel],
       p_funding_basis: selectedFundingBasis,
-      p_selected_accommodation_id: Number(selectedAccommodationId),
+      p_selected_accommodation_id: selectedPrivateAccommodation
+  ? null
+  : selectedAccommodationId
+    ? Number(selectedAccommodationId)
+    : null,
       p_include_medical_package: false,
       p_include_visa_extension: false,
       p_rate_date: "2026-11-20"
