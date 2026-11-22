@@ -1375,9 +1375,9 @@ document.getElementById("continue7").addEventListener("click", async () => {
     return;
   }
 
-  if (Number(selectedUniversity) !== 3) {
+  if (!isBudgetCalculationSupported(selectedUniversity)) {
   alert(
-    "Your selected university is available for planning, but its budget data has not yet been configured. Please select RUDN University to generate a live budget report."
+    "Live budget calculation is currently available for RUDN University and Kazan Federal University only."
   );
   return;
 }
