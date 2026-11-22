@@ -1311,6 +1311,7 @@ document.getElementById("continue5").addEventListener("click", async () => {
       radio.value = option.record_id;
 
       radio.addEventListener("change", () => {
+        selectedPrivateAccommodation = false;
         selectedAccommodationId = Number(option.record_id);
         accommodationSummary.textContent =
           "Selected: " + option.accommodation_type +
