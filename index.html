@@ -849,6 +849,29 @@ function isBudgetCalculationSupported(universityId) {
   return budgetSupportedUniversities.includes(Number(universityId));
 }
 
+function showStep(stepNumber) {
+  document.querySelectorAll(".step").forEach(section => {
+    section.classList.remove("active");
+  });
+
+  document.getElementById("step" + stepNumber).classList.add("active");
+}
+
+function setupSelection(sectionId, callback) {
+  const section = document.getElementById(sectionId);
+
+  section.querySelectorAll(".option").forEach(button => {
+    button.addEventListener("click", () => {
+      section.querySelectorAll(".option").forEach(option => {
+        option.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+      callback(button.dataset.value);
+    });
+  });
+}
+
   setupSelection("step1", value => {
     selectedRoute = value;
   });
