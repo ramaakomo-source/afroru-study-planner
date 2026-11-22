@@ -895,50 +895,84 @@ function isBudgetCalculationSupported(universityId) {
     showStep(2);
   });
 
-  function loadProgrammes() {
-    const container = document.getElementById("programmeOptions");
-    const university = universities[selectedUniversity];
+function loadProgrammes() {
+  const container = document.getElementById("programmeOptions");
+  const university = universities[selectedUniversity];
 
-    container.innerHTML = "";
+  container.innerHTML = "";
+  selectedProgramme = "";
 
-    if (university.programmes.length === 0) {
-      container.innerHTML = `
-        <div class="message">
-          Programme information for ${university.name} is still being
-          verified. Please check the university's official programme
-          catalogue before proceeding.
-        </div>
-        <button class="option" data-value="NOT_YET_SELECTED">
-          Continue with programme to be confirmed
-        </button>
-      `;
+  // Bachelor's and PhD programme lists are not configured yet.
+  if (selectedDegreeLevel !== "Master's") {
+    container.innerHTML = `
+      <div class="message">
+        Programme information for ${university.name} at the
+        ${selectedDegreeLevel} level is not yet available in AfroRu Study
+        Planner. Please check the university's official programme
+        catalogue before proceeding.
+      </div>
+      <button class="option" data-value="NOT_YET_SELECTED">
+        Continue with programme to be confirmed
+      </button>
+    `;
 
-      container.querySelector(".option").addEventListener("click", event => {
-        selectedProgramme = event.currentTarget.dataset.value;
-        event.currentTarget.classList.add("selected");
+    container.querySelector(".option").addEventListener("click", event => {
+      selectedProgramme = event.currentTarget.dataset.value;
+
+      container.querySelectorAll(".option").forEach(option => {
+        option.classList.remove("selected");
       });
 
-      return;
-    }
-
-    university.programmes.forEach(programme => {
-      const button = document.createElement("button");
-      button.className = "option";
-      button.textContent = programme;
-      button.dataset.value = programme;
-
-      button.addEventListener("click", () => {
-        container.querySelectorAll(".option").forEach(option => {
-          option.classList.remove("selected");
-        });
-
-        button.classList.add("selected");
-        selectedProgramme = programme;
-      });
-
-      container.appendChild(button);
+      event.currentTarget.classList.add("selected");
     });
+
+    return;
   }
+
+  // Master's programme information.
+  if (university.programmes.length === 0) {
+    container.innerHTML = `
+      <div class="message">
+        Master's programme information for ${university.name} is still
+        being verified. Please check the university's official programme
+        catalogue before proceeding.
+      </div>
+      <button class="option" data-value="NOT_YET_SELECTED">
+        Continue with programme to be confirmed
+      </button>
+    `;
+
+    container.querySelector(".option").addEventListener("click", event => {
+      selectedProgramme = event.currentTarget.dataset.value;
+
+      container.querySelectorAll(".option").forEach(option => {
+        option.classList.remove("selected");
+      });
+
+      event.currentTarget.classList.add("selected");
+    });
+
+    return;
+  }
+
+  university.programmes.forEach(programme => {
+    const button = document.createElement("button");
+    button.className = "option";
+    button.textContent = programme;
+    button.dataset.value = programme;
+
+    button.addEventListener("click", () => {
+      container.querySelectorAll(".option").forEach(option => {
+        option.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+      selectedProgramme = programme;
+    });
+
+    container.appendChild(button);
+  });
+}
 
  
 document.getElementById("continue3").addEventListener("click", () => {
