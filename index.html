@@ -1431,7 +1431,7 @@ if (pdfFundingRoute) {
       p_current_residence_country: selectedResidenceCountry,
       p_selected_conditional_ids: selectedConditionalIds,
       p_quantities: selectedDocumentQuantities,
-      p_student_level: "Master",
+      p_student_level: selectedDegreeLevel.replace("'", ""),
       p_funding_basis: selectedFundingBasis,
       p_selected_accommodation_id: Number(selectedAccommodationId),
       p_include_medical_package: false,
